@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: colorizer\n"
 "Report-Msgid-Bugs-To: https://github.com/luisbocanegra/plasma-panel-"
 "colorizer\n"
-"POT-Creation-Date: 2026-02-05 20:38+0000\n"
+"POT-Creation-Date: 2026-08-09 07:39+0000\n"
 "PO-Revision-Date: 2025-12-25 13:03+0200\n"
 "Last-Translator: \n"
 "Language-Team: Finnish\n"
@@ -57,8 +57,12 @@ msgid "Global Overrides"
 msgstr "Globaalit ohitukset"
 
 #: ../contents/config/config.qml
-msgid "Text/Icon Fixes"
-msgstr "Teksti- ja ikonikorjaukset"
+msgid "Text/Icon Color Fixes"
+msgstr ""
+
+#: ../contents/config/config.qml
+msgid "Blacklist Widgets"
+msgstr ""
 
 #: ../contents/config/config.qml
 msgid "Hide Widgets"
@@ -97,6 +101,10 @@ msgid "Panel not found, this widget must be placed on a panel to work"
 msgstr ""
 "Paneelia ei löytynyt; tämän pienoisohjelman on oltava paneelissa toimiakseen"
 
+#: ../contents/ui/components/FontFamilyChooser.qml
+msgid "Search fonts"
+msgstr ""
+
 #: ../contents/ui/components/FormBorder.qml
 #: ../contents/ui/components/FormWidgetSettings.qml
 msgid "Border"
@@ -108,6 +116,7 @@ msgstr "Reunaviiva"
 #: ../contents/ui/components/FormShape.qml ../contents/ui/configGeneral.qml
 #: ../contents/ui/configPresetAutoload.qml
 #: ../contents/ui/configStockPanelSettings.qml
+#: ../contents/ui/configWidgetIslands.qml
 msgid "Enabled:"
 msgstr "Käytössä:"
 
@@ -125,8 +134,7 @@ msgstr "Leveys:"
 #: ../contents/ui/components/FormBorder.qml
 msgid ""
 "Use an integer when using <strong>Widget Islands</strong> to avoid rendering "
-"issues! <a href=\"https://github.com/luisbocanegra/plasma-panel-colorizer/"
-"issues/64\">See #64</a>"
+"issues! See <a href=\"%1\">#64</a>."
 msgstr ""
 
 #: ../contents/ui/components/FormBorder.qml
@@ -374,6 +382,12 @@ msgstr ""
 "kontrasti- ja sumennusefektit)."
 
 #: ../contents/ui/components/FormWidgetSettings.qml
+msgid ""
+"⚠️ Disabling this breaks the panel clickable area and applet dialogs "
+"positioning when the panel is in floating mode! See <a href=\"%1\">#80</a>."
+msgstr ""
+
+#: ../contents/ui/components/FormWidgetSettings.qml
 msgid "The shadow from the Plasma theme"
 msgstr "Plasma-teeman mukainen varjo"
 
@@ -413,27 +427,25 @@ msgstr "Leveä laajennuspainike:"
 
 #: ../contents/ui/components/FormWidgetSettings.qml
 msgid ""
-"Make the System Tray expand button be the same width as the other tray items"
+"Make the System Tray expand button use the same size as the other tray items"
 msgstr ""
-"Aseta ilmoitusalueen laajennuspainike samanlevuiseksi muiden kuvakkeiden "
-"kanssa"
+
+#: ../contents/ui/components/FormWidgetSettings.qml
+msgid "Custom cell height:"
+msgstr ""
+
+#: ../contents/ui/components/FormWidgetSettings.qml
+msgid "Custom cell width:"
+msgstr ""
 
 #: ../contents/ui/components/FormWidgetSettings.qml
 msgid "Force floating applets"
 msgstr "Pakota kelluvat sovelmat"
 
 #: ../contents/ui/components/FormWidgetSettings.qml
-msgid "Anchor to edges:"
-msgstr "Ankkuroi reunoihin:"
-
-#: ../contents/ui/components/FormWidgetSettings.qml
-msgid "Resize content when panel enters/exits floating state"
-msgstr ""
-"Muuta sisällön kokoa, kun paneeli siirtyy kelluvaan tilaan tai poistuu siitä"
-
-#: ../contents/ui/components/FormWidgetSettings.qml
-msgid "Panel de-float:"
-msgstr "Paneelin kellunnan poisto:"
+#: ../contents/ui/configPresetAutoload.qml
+msgid "Floating panel:"
+msgstr "Kelluva paneeli:"
 
 #: ../contents/ui/components/FormWidgetSettings.qml
 msgid ""
@@ -442,6 +454,20 @@ msgid ""
 msgstr ""
 "Poista mukautetun taustan pyöristetyt kulmat ja reunat näytön reunalta, kun "
 "paneeli ei kellu"
+
+#: ../contents/ui/components/FormWidgetSettings.qml
+msgid ""
+"Resize panel length when panel enters/exits floating state (instead of just "
+"moving)"
+msgstr ""
+
+#: ../contents/ui/components/FormWidgetSettings.qml
+msgid "Hide panel:"
+msgstr ""
+
+#: ../contents/ui/components/FormWidgetSettings.qml
+msgid "When there are no widgets visible"
+msgstr ""
 
 #: ../contents/ui/components/FormWidgetSettings.qml
 msgid "Customization"
@@ -494,28 +520,21 @@ msgstr ""
 "0, jotta tämä toimii oikein.</strong>"
 
 #: ../contents/ui/components/FormWidgetSettings.qml
+msgid ""
+"C++ plugin not found, this feature will not work. Install the plugin and "
+"reboot or restart plasmashell to be able to use it. See <a "
+"href=\"%1\">install instructions</a>."
+msgstr ""
+
+#: ../contents/ui/components/FormWidgetSettings.qml
 msgid "Clipping (Experimental)"
 msgstr ""
 
 #: ../contents/ui/components/FormWidgetSettings.qml
 msgid ""
 "Clip the widget content to the custom background radius.<br>Clipping widgets "
-"against the panel is not supported yet but is planned for a later version, "
-"see <a href=\"https://github.com/luisbocanegra/plasma-panel-colorizer/"
-"issues/275\">#275</a>."
+"against the panel is not supported yet, see <a href=\"%1\">#275</a>."
 msgstr ""
-
-#: ../contents/ui/components/FormWidgetSettings.qml
-msgid ""
-"C++ plugin not found, this feature will not work. Install the plugin and "
-"reboot or restart plasmashell to be able to use it."
-msgstr ""
-"C++-liitännäistä ei löytynyt, tämä ominaisuus ei toimi. Asenna liitännäinen "
-"ja käynnistä tietokone tai plasmashell uudelleen käyttääksesi sitä."
-
-#: ../contents/ui/components/FormWidgetSettings.qml
-msgid "Plugin install instructions"
-msgstr "Liitännäisen asennusohjeet"
 
 #: ../contents/ui/components/FormWidgetSettings.qml
 msgid "Shape"
@@ -734,10 +753,8 @@ msgstr ""
 #: ../contents/ui/components/SupportMe.qml
 msgid ""
 "If you enjoy using the plugin please consider sponsoring or donating so I "
-"can dedicate more time to maintain and improve this and <a href=\"https://"
-"github.com/luisbocanegra?"
-"tab=repositories&q=&type=source&language=&sort=stargazers\">my other "
-"projects</a>."
+"can dedicate more time to maintain and improve this and <a href=\"%1\">my "
+"other projects</a>."
 msgstr ""
 
 #: ../contents/ui/components/SupportMe.qml
@@ -756,12 +773,20 @@ msgstr ""
 msgid "Translate %1 to your language"
 msgstr ""
 
+#: ../contents/ui/components/WidgetCardBlacklist.qml
 #: ../contents/ui/components/WidgetCardConfig.qml
 #: ../contents/ui/components/WidgetCardHide.qml
-#: ../contents/ui/components/WidgetCardIslands.qml
 #: ../contents/ui/components/WidgetCardTextIconFixes.qml
 msgid "System Tray"
 msgstr "Ilmoitusalue"
+
+#: ../contents/ui/components/WidgetCardBlacklist.qml
+msgid "Blacklist"
+msgstr ""
+
+#: ../contents/ui/components/WidgetCardConfig.qml
+msgid "Clear"
+msgstr ""
 
 #: ../contents/ui/components/WidgetCardConfig.qml
 msgid "Add"
@@ -770,18 +795,6 @@ msgstr "Lisää"
 #: ../contents/ui/components/WidgetCardHide.qml
 msgid "Hide"
 msgstr "Piilota"
-
-#: ../contents/ui/components/WidgetCardIslands.qml
-msgid "Disable"
-msgstr "Poista käytöstä"
-
-#: ../contents/ui/components/WidgetCardIslands.qml
-msgid "Start"
-msgstr "Alku"
-
-#: ../contents/ui/components/WidgetCardIslands.qml
-msgid "End"
-msgstr "Loppu"
 
 #: ../contents/ui/components/WidgetCardOverride.qml
 msgid "Edit"
@@ -808,15 +821,8 @@ msgstr "Päivitä"
 msgid ""
 "Not getting the expected result? Make sure you're editing the correct "
 "element.<br>Custom blur not working? Try reinstalling/rebuilding the C++ "
-"plugin using the latest source, <a href=\"https://github.com/luisbocanegra/"
-"plasma-panel-colorizer#build-from-source-with-c-plugin\">see instructions</"
-"a>."
+"plugin using the latest source, <a href=\"%1\">see instructions</a>."
 msgstr ""
-"Etkö saa odotettua tulosta? Varmista, että muokkaat oikeaa elementtiä."
-"<br>Eikö mukautettu sumennus toimi? Kokeile asentaa C++-liitännäinen "
-"uudelleen uusimmasta lähdekoodista, <a href=\"https://github.com/"
-"luisbocanegra/plasma-panel-colorizer#build-from-source-with-c-plugin\">katso "
-"ohjeet</a>."
 
 #: ../contents/ui/configAppearance.qml
 msgid "Restore default (removes all customizations)"
@@ -839,6 +845,21 @@ msgstr "Ilmoitusalueen pienoisohjelmat"
 #: ../contents/ui/configAppearance.qml
 msgid "Part of the panel on which the options below will be applied."
 msgstr "Paneelin osa, johon alla olevia asetuksia sovelletaan."
+
+#: ../contents/ui/configBlacklistWidgets.qml
+msgid ""
+"Blacklist widgets to keep their default appearance. A logout may be required "
+"for some widgets to fully restore their default appearance."
+msgstr ""
+
+#: ../contents/ui/configBlacklistWidgets.qml
+msgid "Blacklist spacers"
+msgstr ""
+
+#: ../contents/ui/configBlacklistWidgets.qml
+#: ../contents/ui/configTrayIconsReplacer.qml
+msgid "Remove all"
+msgstr ""
 
 #: ../contents/ui/configGeneral.qml
 msgid "Hide widget:"
@@ -1113,10 +1134,6 @@ msgid "At least one window is visible:"
 msgstr "Vähintään yksi ikkuna on näkyvissä:"
 
 #: ../contents/ui/configPresetAutoload.qml
-msgid "Floating panel:"
-msgstr "Kelluva paneeli:"
-
-#: ../contents/ui/configPresetAutoload.qml
 msgid "activity:"
 msgstr "aktiviteetti:"
 
@@ -1368,15 +1385,10 @@ msgid ""
 "configured preset auto-loading or know how to switch presets using D-Bus (or "
 "have disabled it), you will have no way to make it visible again without "
 "manually removing the configuration or Panel Colorizer, use the command "
-"below in terminal/tty then log out or reboot, it will renove the "
+"below in terminal/tty then log out or reboot, it will remove the "
 "configuration from all Panel Colorizer instances so make sure to save the "
 "others first"
 msgstr ""
-"VAROITUS: Käytä Näytä/Piilota-toimintoa varoen. Jos piilotat paneelin etkä "
-"ole määrittänyt automaattista latausta tai tiedä miten vaihtaa esiasetuksia "
-"D-Busin kautta, et saa paneelia enää näkyviin ilman asetusten manuaalista "
-"poistamista. Alla oleva komento terminaalissa poistaa asetukset kaikilta "
-"instansseilta, joten tallenna muut ensin."
 
 #: ../contents/ui/configStockPanelSettings.qml
 msgid ""
@@ -1386,6 +1398,10 @@ msgid ""
 msgstr ""
 "Jos D-Bus on käytössä, on suositeltavaa käyttää sitä pikanäppäinten kanssa. "
 "Lue README-tiedosto tai katso esimerkkejä Yleiset-välilehdeltä."
+
+#: ../contents/ui/configStockPanelSettings.qml
+msgid "D-Bus usage"
+msgstr ""
 
 #: ../contents/ui/configTextIconFix.qml
 msgid ""
@@ -1416,34 +1432,28 @@ msgid "Add new"
 msgstr ""
 
 #: ../contents/ui/configTrayIconsReplacer.qml
-msgid "Remove all"
-msgstr ""
-
-#: ../contents/ui/configTrayIconsReplacer.qml
 msgid "Sort"
 msgstr ""
 
 #: ../contents/ui/configTrayIconsReplacer.qml
 msgid ""
 "Replace System Tray icons with icons from the current icon theme or a local "
-"file. The built-in rules icons are part of <a href=\"https://github.com/"
-"PapirusDevelopmentTeam/papirus-icon-theme\">Papirus icon theme</a>."
+"file. The built-in rules icons are part of <a href=\"%1\">Papirus icon "
+"theme</a>."
 msgstr ""
 
 #: ../contents/ui/configTrayIconsReplacer.qml
 msgid ""
 "C++ plugin not found, this feature will not work. Install the plugin and "
-"reboot or restart plasmashell to be able to use it <a href=\"https://github."
-"com/luisbocanegra/plasma-panel-colorizer?tab=readme-ov-"
-"file#manually\">Install instructions</a>."
+"reboot or restart plasmashell to be able to use it <a href=\"%1\">Install "
+"instructions</a>."
 msgstr ""
 
 #: ../contents/ui/configTrayIconsReplacer.qml
 msgid ""
 "The installed version of the C++ plugin doesn't support this feature, update "
 "the plugin and reboot or restart plasmashell to be able to use it <a "
-"href=\"https://github.com/luisbocanegra/plasma-panel-colorizer?tab=readme-ov-"
-"file#manually\">Install instructions</a>."
+"href=\"%1\">Install instructions</a>."
 msgstr ""
 
 #: ../contents/ui/configTrayIconsReplacer.qml
@@ -1464,6 +1474,43 @@ msgstr ""
 
 #: ../contents/ui/configTrayIconsReplacer.qml
 msgid "How to use"
+msgstr ""
+
+#: ../contents/ui/configTrayIconsReplacer.qml
+msgid ""
+"1. Enable <b>Log icon changes</b> above<br>2. Run <b>journalctl -f</b> from "
+"terminal<br>3. Hover the System tray entry or trigger an icon change<br>4. "
+"Copy any of the properties: icon SHA1/name, title or name <br>5. Add a new "
+"rule with the SHA1/icon name/title/name you choose and specify the custom "
+"icon name or file"
+msgstr ""
+
+#: ../contents/ui/configTrayIconsReplacer.qml
+msgid ""
+"<b>Note</b>: There are some rules without icon as there was no matching one "
+"in Papirus, you can override those with your own icons by copying the rule "
+"to <b>User Replacements</b>"
+msgstr ""
+
+#: ../contents/ui/configTrayIconsReplacer.qml
+msgid ""
+"<b>Note</b>: Some applications like Signal are missing accumulated "
+"notification icons, contribution of missing icons via GitHub pull request or "
+"issue is very welcome, please do so by providing the the description + SHA1/"
+"title/name + icon-name from Papirus (panel/status icons only if no matching "
+"icon exists, otherwise it can be omitted)"
+msgstr ""
+
+#: ../contents/ui/configTrayIconsReplacer.qml
+msgid ""
+"<b>Note</b>: Matching properties (especially the SHA1) may change when "
+"applications get updated, rules will need to be updated when that happens."
+msgstr ""
+
+#: ../contents/ui/configTrayIconsReplacer.qml
+msgid ""
+"<b>Note</b>: Plasma widgets in the system tray are not supported by this "
+"feature as widgets provide their own visual content and logic."
 msgstr ""
 
 #: ../contents/ui/configTrayIconsReplacer.qml
@@ -1521,26 +1568,161 @@ msgid "Copy to User Rules"
 msgstr ""
 
 #: ../contents/ui/configTrayIconsReplacer.qml
-msgid "Copy rule"
+msgid "Duplicate rule"
+msgstr ""
+
+#: ../contents/ui/configWidgetIslands.qml
+msgid "Create widget islands by placing separator widgets around them."
 msgstr ""
 
 #: ../contents/ui/configWidgetIslands.qml
 msgid ""
-"Select start and end of widget islands, widgets between <b>Start</b> and "
-"<b>End</b> must be left <b>disabled</b>. Widget custom background or border "
-"is required for this option to have an effect."
+"<strong>How to use</strong><br>1. Add the widget that will act as islands "
+"separator to the panel(by default the Plasma's Panel Spacer widget will be "
+"used)<br>2. Select the separator widget below<br>3. Add as many separators "
+"as you need and move them to create islands."
 msgstr ""
-"Valitse pienoisohjelmasaarten alku ja loppu. Ohjelmien, jotka ovat <b>Alun</"
-"b> ja <b>Lopun</b> välissä, on oltava <b>pois käytöstä</b>. Tämä vaatii "
-"mukautetun taustan tai reunuksen toimiakseen."
 
 #: ../contents/ui/configWidgetIslands.qml
-msgid "Remove all islands"
+msgid ""
+"<strong>Notes</strong><br>- Widget custom background or border is required "
+"for this option to have a visible effect.<br>- If the widgets in your panel "
+"have different thickness, add margins to the widgets custom background in "
+"the Appearance tab."
+msgstr ""
+
+#: ../contents/ui/configWidgetIslands.qml
+msgid ""
+"<strong>Need a separator widget?</strong><br>- <a href=\"%1\">Panel "
+"Colorizer Islands Separator</a> visible only in Edit Mode.<br>- <a "
+"href=\"%2\">Advanced Separator</a> always visible and configurable."
+msgstr ""
+
+#: ../contents/ui/configWidgetIslands.qml
+msgid "Separator widget:"
+msgstr ""
+
+#: ../contents/ui/configWidgetIslands.qml
+msgid ""
+"Select the widget that will act as separator for the islands.<br><br>Note "
+"that the separator widget itself does not need to be visible for it to work, "
+"so you can use an invisible spacer/separator for example."
+msgstr ""
+
+#: ../contents/ui/configWidgetIslands.qml
+msgid "Require two separators per island:"
+msgstr ""
+
+#: ../contents/ui/configWidgetIslands.qml
+msgid ""
+"Always require two separators for a group of widgets to become an island. By "
+"default, an arrangement of<br>%1 creates two islands.<br><br>Enabling this "
+"option makes it so that islands do not share separators, so for example an "
+"arrangement of<br>%2 is required to create two islands.<br><br>Enable this "
+"if your islands separator is not a panel spacer and you want to explicitly "
+"define the start and end of each island."
+msgstr ""
+
+#: ../contents/ui/configWidgetIslands.qml
+msgid "Blacklist separator widgets:"
+msgstr ""
+
+#: ../contents/ui/configWidgetIslands.qml
+msgid "Disable customization from separator widgets"
+msgstr ""
+
+#: ../contents/ui/main.qml
+msgid "This widget must be placed in a panel to work!"
 msgstr ""
 
 #: ../contents/ui/main.qml
 msgid "Hide widget (visible in panel Edit Mode)"
 msgstr "Piilota pienoisohjelma (näkyvissä paneelin muokkaustilassa)"
+
+#: ../contents/ui/main.qml
+msgid ""
+"A Plasmashell restart is required to remove all the modifications made by "
+"%1. Run systemctl restart --user plasma-plasmashell or log out and log back "
+"in."
+msgstr ""
+
+#~ msgid ""
+#~ "Not getting the expected result? Make sure you're editing the correct "
+#~ "element.<br>Custom blur not working? Try reinstalling/rebuilding the C++ "
+#~ "plugin using the latest source, <a href=\"https://github.com/"
+#~ "luisbocanegra/plasma-panel-colorizer#build-from-source-with-c-"
+#~ "plugin\">see instructions</a>."
+#~ msgstr ""
+#~ "Etkö saa odotettua tulosta? Varmista, että muokkaat oikeaa elementtiä."
+#~ "<br>Eikö mukautettu sumennus toimi? Kokeile asentaa C++-liitännäinen "
+#~ "uudelleen uusimmasta lähdekoodista, <a href=\"https://github.com/"
+#~ "luisbocanegra/plasma-panel-colorizer#build-from-source-with-c-"
+#~ "plugin\">katso ohjeet</a>."
+
+#~ msgid "Disable"
+#~ msgstr "Poista käytöstä"
+
+#~ msgid "Start"
+#~ msgstr "Alku"
+
+#~ msgid "End"
+#~ msgstr "Loppu"
+
+#~ msgid ""
+#~ "Select start and end of widget islands, widgets between <b>Start</b> and "
+#~ "<b>End</b> must be left <b>disabled</b>. Widget custom background or "
+#~ "border is required for this option to have an effect."
+#~ msgstr ""
+#~ "Valitse pienoisohjelmasaarten alku ja loppu. Ohjelmien, jotka ovat "
+#~ "<b>Alun</b> ja <b>Lopun</b> välissä, on oltava <b>pois käytöstä</b>. Tämä "
+#~ "vaatii mukautetun taustan tai reunuksen toimiakseen."
+
+#~ msgid ""
+#~ "Make the System Tray expand button be the same width as the other tray "
+#~ "items"
+#~ msgstr ""
+#~ "Aseta ilmoitusalueen laajennuspainike samanlevuiseksi muiden kuvakkeiden "
+#~ "kanssa"
+
+#~ msgid "Text/Icon Fixes"
+#~ msgstr "Teksti- ja ikonikorjaukset"
+
+#~ msgid "Anchor to edges:"
+#~ msgstr "Ankkuroi reunoihin:"
+
+#~ msgid "Resize content when panel enters/exits floating state"
+#~ msgstr ""
+#~ "Muuta sisällön kokoa, kun paneeli siirtyy kelluvaan tilaan tai poistuu "
+#~ "siitä"
+
+#~ msgid "Panel de-float:"
+#~ msgstr "Paneelin kellunnan poisto:"
+
+#~ msgid ""
+#~ "C++ plugin not found, this feature will not work. Install the plugin and "
+#~ "reboot or restart plasmashell to be able to use it."
+#~ msgstr ""
+#~ "C++-liitännäistä ei löytynyt, tämä ominaisuus ei toimi. Asenna "
+#~ "liitännäinen ja käynnistä tietokone tai plasmashell uudelleen "
+#~ "käyttääksesi sitä."
+
+#~ msgid "Plugin install instructions"
+#~ msgstr "Liitännäisen asennusohjeet"
+
+#~ msgid ""
+#~ "WARNING: Use Show/Hide with caution, if you hide the panel and have not "
+#~ "configured preset auto-loading or know how to switch presets using D-Bus "
+#~ "(or have disabled it), you will have no way to make it visible again "
+#~ "without manually removing the configuration or Panel Colorizer, use the "
+#~ "command below in terminal/tty then log out or reboot, it will renove the "
+#~ "configuration from all Panel Colorizer instances so make sure to save the "
+#~ "others first"
+#~ msgstr ""
+#~ "VAROITUS: Käytä Näytä/Piilota-toimintoa varoen. Jos piilotat paneelin "
+#~ "etkä ole määrittänyt automaattista latausta tai tiedä miten vaihtaa "
+#~ "esiasetuksia D-Busin kautta, et saa paneelia enää näkyviin ilman "
+#~ "asetusten manuaalista poistamista. Alla oleva komento terminaalissa "
+#~ "poistaa asetukset kaikilta instansseilta, joten tallenna muut ensin."
 
 #~ msgid "Matrix chat"
 #~ msgstr "Matrix-chat"

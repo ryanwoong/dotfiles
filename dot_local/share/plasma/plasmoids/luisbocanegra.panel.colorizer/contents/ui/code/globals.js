@@ -237,29 +237,13 @@ const baseTrayConfig = {
     opacity: 1.0,
 };
 
-const baseOverride = {
-    blurBehind: false,
-    backgroundClipping: false,
-    backgroundColor: baseBgColor,
-    foregroundColor: baseFgColor,
-    radius: baseRadius,
-    margin: baseMargin,
-    spacing: 4,
-    border: baseBorder,
-    borderSecondary: baseBorder,
-    shadow: baseShadowConfig,
-    enabled: true,
-    opacity: 1.0,
-    fontConfig: baseFontConfig,
-};
-
 const baseOverrideConfig = {
     disabledFallback: true,
-    normal: baseOverride,
-    busy: baseOverride,
-    hovered: baseOverride,
-    needsAttention: baseOverride,
-    expanded: baseOverride,
+    normal: baseWidgetConfig,
+    busy: baseWidgetConfig,
+    hovered: baseWidgetConfig,
+    needsAttention: baseWidgetConfig,
+    expanded: baseWidgetConfig,
 };
 
 const baseStockPanelSettings = {
@@ -323,6 +307,8 @@ const defaultConfig = {
         needsAttention: baseTrayConfig,
         expanded: baseTrayConfig,
         wideTrayArrow: false,
+        customCellSizeEnabled: false,
+        customCellSize: 22,
     },
     nativePanel: {
         background: {
@@ -333,13 +319,13 @@ const defaultConfig = {
         floatingDialogs: false,
         floatingDialogsAllowOverride: false,
         fillAreaOnDeFloat: true,
+        hideWhenNoWidgetsAreVisible: false,
     },
     stockPanelSettings: baseStockPanelSettings,
     configurationOverrides: {
         overrides: {},
         associations: [],
     },
-    unifiedBackground: [],
 };
 
 const ignoredConfigs = [
@@ -367,6 +353,11 @@ const ignoredConfigs = [
     "systemTrayIconUserReplacements",
     "systemTrayIconBuiltinReplacementsEnabled",
     "logSystemTrayIconChanges",
+    "islandSeparatorPairing",
+    "islandSeparatorWidget",
+    "islandSeparatorWidget",
+    "islandsEnabled",
+    "blacklistIslandSeparator"
 ];
 
 const editModeGridSettings = {
@@ -378,3 +369,8 @@ const editModeGridSettings = {
     majorLine: { color: "#ff0000", alpha: 0 },
     mayorLineEvery: 2,
 };
+
+const spacerWidgets = [
+    "org.kde.plasma.panelspacer",
+    "luisbocanegra.panelspacer.extended",
+];

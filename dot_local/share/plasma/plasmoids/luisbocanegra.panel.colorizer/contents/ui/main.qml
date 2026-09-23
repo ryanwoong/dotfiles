@@ -6,6 +6,7 @@ import org.kde.kirigami as Kirigami
 import org.kde.plasma.core as PlasmaCore
 import org.kde.plasma.plasmoid
 import org.kde.taskmanager as TaskManager
+import org.kde.notification
 
 import "code/utils.js" as Utils
 import "code/globals.js" as Globals
@@ -17,7 +18,6 @@ PlasmoidItem {
     id: main
     property int panelLayoutCount: panelLayout?.children.length || 0
     property int trayGridViewCount: trayGridView?.count || 0
-    property int trayGridViewCountOld: 0
     property var panelPosition: {
         var location;
         var screen = main.screen;
@@ -52,6 +52,7 @@ PlasmoidItem {
     property bool floatingDialogsAllowOverride: main.isEnabled ? cfg.nativePanel.floatingDialogsAllowOverride : false
     property bool fillAreaOnDeFloat: main.isEnabled ? cfg.nativePanel.fillAreaOnDeFloat : false
     property bool isEnabled: Plasmoid.configuration.isEnabled
+    property bool wasEnabled: true
     property bool nativePanelBackgroundEnabled: (isEnabled ? cfg.nativePanel.background.enabled : true) || doPanelClickFix
     property real nativePanelBackgroundOpacity: isEnabled ? cfg.nativePanel.background.opacity : 1.0
     property bool nativePanelBackgroundShadowEnabled: isEnabled ? cfg.nativePanel.background.shadow : true
@@ -67,11 +68,16 @@ PlasmoidItem {
     property bool animatePropertyChanges: Plasmoid.configuration.animatePropertyChanges
     property int animationDuration: Plasmoid.configuration.animationDuration
     property int animationEasingType: Easing.OutCubic
+    property bool islandSeparatorPairing: Plasmoid.configuration.islandSeparatorPairing
+    property string islandSeparatorWidget: Plasmoid.configuration.islandSeparatorWidget
+    property bool blacklistIslandSeparator: Plasmoid.configuration.blacklistIslandSeparator
+    property bool islandsEnabled: Plasmoid.configuration.islandsEnabled
     property var panelState: {
         "fullscreenWindow": tasksModel.fullscreenExists,
         "maximized": tasksModel.maximizedExists,
-        "visibleWindows": tasksModel.visibleExists,
         "touchingWindow": panelElement && panelElement.touchingWindow,
+        "activeWindow": tasksModel.activeExists,
+        "visibleWindows": tasksModel.visibleExists,
         "floating": panelElement && panelElement.floatingness > 0,
         "activity": activityInfo.currentActivity
     }
@@ -85,8 +91,11 @@ PlasmoidItem {
         return Object.values(trayItemsDoingBlur).some(state => state);
     }
 
-    property var unifiedBackgroundTracker: []
-    property var unifiedBackgroundFinal: []
+    // custom background disabled or blacklisted widgets
+    property var noBgTracker: new Set()
+    // hidden widgets Plasmoid.status === PlasmaCore.Types.HiddenStatus
+    property var hiddenTracker: new Set()
+
     property bool doPanelClickFix: false
     property bool doPanelLengthFix: false
 
@@ -148,20 +157,15 @@ PlasmoidItem {
     property var trayWidgetSettings: cfg.trayWidgets
     property var stockPanelSettings: cfg.stockPanelSettings
     property var widgetsSpacing: {
-        if (unifiedBackgroundSettings.length) {
+        if (islandWidgetTypes.length) {
             return Utils.makeEven(widgetSettings?.normal?.spacing ?? 4);
         } else {
             return widgetSettings?.normal?.spacing ?? 4;
         }
     }
-    property var unifiedBackgroundSettings: Utils.fixV2UnifiedWidgetConfig(Utils.clearOldWidgetConfig(cfg.unifiedBackground))
-    onUnifiedBackgroundSettingsChanged: {
-        // fix config from v2
-        if (Plasmoid.configuration.globalSettings !== JSON.stringify(cfg)) {
-            Plasmoid.configuration.globalSettings = JSON.stringify(cfg);
-            Plasmoid.configuration.writeConfig();
-        }
-    }
+
+    property var islandWidgetTypes: []
+    property var widgetTypes: []
     property var forceRecolorList: Utils.clearOldWidgetConfig(forceForegroundColor?.widgets ?? [])
     property int forceRecolorInterval: forceForegroundColor?.reloadInterval ?? 0
     property int forceRecolorCount: forceRecolorList.length
@@ -192,8 +196,28 @@ PlasmoidItem {
     property real pixelsPerInch: Screen.pixelDensity * 25.4
     signal recolorCountChanged
     signal refreshNeeded
-    signal updateUnified
+    signal updateIslands
     signal updateMasks
+
+    property Timer updateIslandsTimer: Timer {
+        interval: 50
+        onTriggered: {
+            const o = Utils.updateIslandWidgetTypes(main.panelLayout, main.noBgTracker, main.hiddenTracker, main.islandSeparatorWidget, main.islandsEnabled, main.islandSeparatorPairing);
+            main.islandWidgetTypes = o.islandTypes;
+            main.widgetTypes = o.widgetTypes;
+        }
+    }
+
+    Connections {
+        target: main
+        function onUpdateIslands() {
+            main.updateIslandsTimer.restart();
+        }
+    }
+
+    onIslandSeparatorPairingChanged: updateIslands()
+    onIslandSeparatorWidgetChanged: updateIslands()
+    onIslandsEnabledChanged: updateIslands()
 
     property var switchPresets: JSON.parse(Plasmoid.configuration.switchPresets)
     property var panelView: null
@@ -210,24 +234,56 @@ PlasmoidItem {
         }
     }
 
+    property var blacklistedWidgets: {
+        try {
+            return JSON.parse(Plasmoid.configuration.blacklistedWidgets);
+        } catch (e) {
+            console.error(e, e.stack);
+            return {
+                widgets: []
+            };
+        }
+    }
+
     function applyStockPanelSettings() {
         let script = Utils.setPanelModeScript(Plasmoid.containment.id, stockPanelSettings);
-        if (stockPanelSettings.visible.enabled) {
-            panelView.visible = stockPanelSettings.visible.value;
-        } else {
-            panelView.visible = true;
-        }
         dbusEvaluateScript.arguments = [script.toString().replace(/\n/g, ' ').trim()];
         dbusEvaluateScript.call(() => {
             Utils.delay(250, () => {
                 reconfigure();
             }, main);
         });
+        updatePanelVisibility();
     }
 
-    onStockPanelSettingsChanged: {
-        Qt.callLater(applyStockPanelSettings);
+    function updatePanelVisibility() {
+        if (!panelView)
+            return;
+        if (editMode || !isEnabled) {
+            panelView.visible = true;
+            return;
+        }
+        if (stockPanelSettings.visible.enabled) {
+            panelView.visible = stockPanelSettings.visible.value;
+            return;
+        }
+        if (cfg.nativePanel.hideWhenNoWidgetsAreVisible ?? false) {
+            panelView.visible = widgetTypes.some(w => !w.hidden);
+            return;
+        }
+        panelView.visible = true;
     }
+
+    readonly property var stockPanelSettingsDeps: ({
+            stockPanelSettings,
+            isEnabled,
+            editMode,
+            hideWhenNoWidgetsAreVisible: main.cfg.nativePanel.hideWhenNoWidgetsAreVisible ?? false,
+            hasVisibleWidgets: widgetTypes.some(w => !w.hidden)
+        })
+
+    onStockPanelSettingsDepsChanged: Qt.callLater(applyStockPanelSettings)
+    onIsEnabledChanged: Qt.callLater(applyStockPanelSettings)
 
     onForceRecolorCountChanged: {
         // console.error("onForceRecolorCountChanged ->", forceRecolorCount)
@@ -412,16 +468,7 @@ PlasmoidItem {
         return null;
     }
 
-    property var containmentItem: {
-        let candidate = main.parent;
-        while (candidate) {
-            if (candidate.toString().indexOf("ContainmentItem_QML") > -1) {
-                return candidate;
-            }
-            candidate = candidate.parent;
-        }
-        return null;
-    }
+    property var containmentItem: Plasmoid.containment
 
     onPanelElementChanged: {
         Utils.panelOpacity(panelElement, isEnabled, nativePanelBackgroundOpacity);
@@ -533,7 +580,7 @@ PlasmoidItem {
 
     onPanelLayoutCountChanged: {
         // console.log("onPanelLayoutCountChanged")
-        initAll();
+        Qt.callLater(initAll);
         // re-apply customizations after the widget stops being dragged around
         if (!panelLayout?.children.length) {
             return;
@@ -550,26 +597,24 @@ PlasmoidItem {
     function initAll() {
         if (!panelLayout || panelLayoutCount === 0)
             return;
-        Qt.callLater(function () {
-            trayInitTimer.restart();
-            Utils.showWidgets(panelLayout, backgroundComponent, Plasmoid);
-            updateCurrentWidgets();
-            showPanelBg(panelBg);
-            updateContextualActions(configureFromAllWidgets);
-        });
+        updateTray();
+        Utils.showWidgets(panelLayout, backgroundComponent, Plasmoid);
+        updateCurrentWidgets();
+        showPanelBg(panelBg);
+        updateIslands();
     }
 
     onEditModeChanged: {
         if (editMode)
             return;
-        initAll();
+        Qt.callLater(updatePlasmoidStatus);
+        Qt.callLater(initAll);
     }
 
     onTrayGridViewCountChanged: {
         if (trayGridViewCount === 0)
             return;
-        // console.error(trayGridViewCount);
-        trayInitTimer.restart();
+        Qt.callLater(updateTray);
     }
 
     function switchPreset() {
@@ -582,7 +627,7 @@ PlasmoidItem {
         if (!presetDir || presetDir === lastPreset)
             return;
         console.log("Reading preset:", presetDir);
-        runCommand.run("cat '" + presetDir + "/settings.json'");
+        runCommand.exec("cat '" + presetDir + "/settings.json'");
         lastPreset = presetDir;
     }
 
@@ -598,14 +643,25 @@ PlasmoidItem {
         switchPreset();
     }
 
-    property Timer trayInitTimer: Timer {
-        interval: 100
-        onTriggered: {
-            if (main.trayGridView && main.trayGridViewCount !== 0) {
-                Utils.showTrayAreas(main.trayGridView, main.backgroundComponent);
-            }
-            main.updateCurrentWidgets();
+    Binding {
+        target: main.trayGridView
+        property: "cellWidth"
+        value: main.trayWidgetSettings.customCellSize
+        when: (main.trayWidgetSettings.customCellSizeEnabled ?? false) && main.horizontal
+    }
+
+    Binding {
+        target: main.trayGridView
+        property: "cellHeight"
+        value: main.trayWidgetSettings.customCellSize
+        when: (main.trayWidgetSettings.customCellSizeEnabled ?? false) && !main.horizontal
+    }
+
+    function updateTray() {
+        if (trayGridView && trayGridViewCount !== 0) {
+            Utils.showTrayAreas(trayGridView, backgroundComponent);
         }
+        updateCurrentWidgets();
     }
 
     DBusMethodCall {
@@ -693,7 +749,7 @@ PlasmoidItem {
         id: configureAction
         text: Plasmoid.internalAction("configure").text
         objectName: "panelColorizerConfigureAction"
-        icon.name: 'configure'
+        icon.name: "configure"
         onTriggered: Plasmoid.internalAction("configure").trigger()
     }
 
@@ -702,26 +758,14 @@ PlasmoidItem {
     }
 
     function updateContextualActions(enabled) {
-        if (!main.panelLayout)
-            return;
-        for (var i in main.panelLayout.children) {
-            const child = main.panelLayout.children[i];
-            // may not be available while dragging into the panel and other situations
-            if (!child.applet?.plasmoid?.pluginName)
-                continue;
-
-            if (child.applet.Plasmoid.pluginName === Plasmoid.metaData.pluginId) {
-                continue;
+        Plasmoid.containment.contextualActions = Plasmoid.containment.contextualActions.filter(item => {
+            if (item && item.objectName === "panelColorizerConfigureAction") {
+                return false;
             }
-            child.applet.Plasmoid.contextualActions = child.applet.Plasmoid.contextualActions.filter(item => {
-                if (item && item.objectName === "panelColorizerConfigureAction") {
-                    return false;
-                }
-                return true;
-            });
-            if (enabled) {
-                child.applet.Plasmoid.contextualActions.push(configureAction);
-            }
+            return true;
+        });
+        if (enabled) {
+            Plasmoid.containment.contextualActions.push(configureAction);
         }
     }
 
@@ -738,7 +782,7 @@ PlasmoidItem {
 
     Component.onCompleted: {
         updatePlasmoidStatus();
-        runCommand.run("plasmashell --version");
+        runCommand.exec("plasmashell --version");
         let pluginFound = false;
         try {
             panelColorizer = Qt.createQmlObject("import org.kde.plasma.panelcolorizer 1.0; PanelColorizer { id: panelColorizer }", main);
@@ -751,9 +795,7 @@ PlasmoidItem {
             Plasmoid.configuration.pluginFound = pluginFound;
             Plasmoid.configuration.writeConfig();
         }
-        Utils.delay(100, () => {
-            applyStockPanelSettings();
-        }, main);
+        Qt.callLater(applyStockPanelSettings);
         Utils.delay(500, () => {
             updateContextualActions(configureFromAllWidgets);
         }, main);
@@ -764,7 +806,7 @@ PlasmoidItem {
         screenGeometry: Plasmoid.containment.screenGeometry
         filterByActive: main.presetAutoloading.filterByActive ?? false
         filterByScreen: main.presetAutoloading.filterByScreen ?? true
-        trackLastActive: main.presetAutoloading.trackLastActive ?? true
+        trackLastActive: main.presetAutoloading.trackLastActive ?? false
     }
 
     RunCommand {
@@ -849,7 +891,7 @@ PlasmoidItem {
     toolTipSubText: {
         let text = "";
         if (onDesktop) {
-            text = "<font color='" + Kirigami.Theme.neutralTextColor + "'>Panel not found, this widget must be child of a panel</font>";
+            text = `<font color="${Kirigami.Theme.neutralTextColor}">` + i18n("This widget must be placed in a panel to work!") + "</font>";
         } else if (Plasmoid.configuration.isEnabled) {
             const name = Plasmoid.configuration.lastPreset.split("/");
             if (name.length) {
@@ -858,7 +900,7 @@ PlasmoidItem {
         }
         return text;
     }
-    toolTipTextFormat: Text.PlainText
+    toolTipTextFormat: Text.RichText
 
     function updatePlasmoidStatus() {
         Plasmoid.status = (editMode || !hideWidget || !runningLatest) ? PlasmaCore.Types.ActiveStatus : PlasmaCore.Types.HiddenStatus;
@@ -902,7 +944,7 @@ PlasmoidItem {
         repeat: true
         triggeredOnStart: true
         onTriggered: {
-            versionChecker.run(main.localVersionCmd);
+            versionChecker.exec(main.localVersionCmd);
         }
     }
 
@@ -932,6 +974,7 @@ PlasmoidItem {
                 Plasmoid.configuration.globalSettings = JSON.stringify(main.cfg);
             }
         }
+        instanceId: Plasmoid.id
     }
 
     DBusSignalMonitor {
@@ -944,6 +987,7 @@ PlasmoidItem {
                 main.applyPreset(message);
             }
         }
+        instanceId: Plasmoid.id
     }
     TaskManager.ActivityInfo {
         id: activityInfo
@@ -952,5 +996,41 @@ PlasmoidItem {
 
     Plasmoid.onActivated: {
         main.widgetClickAction();
+    }
+
+    // Disable panel colorizer when the widget is about to be removed
+    // using containment because:
+    // Component.onDestroyed is fired too late
+    // Plasmoid.destroyedChanged is also fired when the panel is removed
+    Connections {
+        target: Plasmoid.containment
+        function onAppletAboutToBeRemoved(applet) {
+            if (Plasmoid.id === applet.id) {
+                main.wasEnabled = main.isEnabled;
+                Plasmoid.configuration.isEnabled = false;
+                main.updatePanelVisibility();
+                main.updateContextualActions(false);
+                widgetRemovedNotification.sendEvent();
+            }
+        }
+
+        function onAppletAdded(applet) {
+            if (Plasmoid.id === applet.id) {
+                Plasmoid.configuration.isEnabled = main.wasEnabled;
+                main.updatePanelVisibility();
+                main.updateContextualActions(main.configureFromAllWidgets);
+                widgetRemovedNotification.close();
+            }
+        }
+    }
+
+    Notification {
+        id: widgetRemovedNotification
+        componentName: "plasma_workspace"
+        eventId: "notification"
+        title: Plasmoid.metaData.name
+        text: i18n("A Plasmashell restart is required to remove all the modifications made by %1. Run systemctl restart --user plasma-plasmashell or log out and log back in.", Plasmoid.metaData.name)
+        flags: Notification.Persistent
+        iconName: main.icon
     }
 }
