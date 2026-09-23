@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: colorizer\n"
 "Report-Msgid-Bugs-To: https://github.com/luisbocanegra/plasma-panel-"
 "colorizer\n"
-"POT-Creation-Date: 2026-02-05 20:38+0000\n"
+"POT-Creation-Date: 2026-08-09 07:39+0000\n"
 "PO-Revision-Date: 2026-01-24 16:46+0800\n"
 "Last-Translator: Mill Haruto <mill413@outlook.com>\n"
 "Language-Team: \n"
@@ -58,8 +58,12 @@ msgid "Global Overrides"
 msgstr "全局覆盖"
 
 #: ../contents/config/config.qml
-msgid "Text/Icon Fixes"
-msgstr "文本/图标修复"
+msgid "Text/Icon Color Fixes"
+msgstr ""
+
+#: ../contents/config/config.qml
+msgid "Blacklist Widgets"
+msgstr ""
 
 #: ../contents/config/config.qml
 msgid "Hide Widgets"
@@ -97,6 +101,10 @@ msgstr "挂件背景"
 msgid "Panel not found, this widget must be placed on a panel to work"
 msgstr "未找到面板，此挂件需放置在面板上才能工作"
 
+#: ../contents/ui/components/FontFamilyChooser.qml
+msgid "Search fonts"
+msgstr ""
+
 #: ../contents/ui/components/FormBorder.qml
 #: ../contents/ui/components/FormWidgetSettings.qml
 msgid "Border"
@@ -108,6 +116,7 @@ msgstr "边框"
 #: ../contents/ui/components/FormShape.qml ../contents/ui/configGeneral.qml
 #: ../contents/ui/configPresetAutoload.qml
 #: ../contents/ui/configStockPanelSettings.qml
+#: ../contents/ui/configWidgetIslands.qml
 msgid "Enabled:"
 msgstr "已启用："
 
@@ -125,8 +134,7 @@ msgstr "宽度："
 #: ../contents/ui/components/FormBorder.qml
 msgid ""
 "Use an integer when using <strong>Widget Islands</strong> to avoid rendering "
-"issues! <a href=\"https://github.com/luisbocanegra/plasma-panel-colorizer/"
-"issues/64\">See #64</a>"
+"issues! See <a href=\"%1\">#64</a>."
 msgstr ""
 
 #: ../contents/ui/components/FormBorder.qml
@@ -365,6 +373,12 @@ msgid ""
 msgstr "禁用可使面板完全透明，移除此对比度和模糊效果。"
 
 #: ../contents/ui/components/FormWidgetSettings.qml
+msgid ""
+"⚠️ Disabling this breaks the panel clickable area and applet dialogs "
+"positioning when the panel is in floating mode! See <a href=\"%1\">#80</a>."
+msgstr ""
+
+#: ../contents/ui/components/FormWidgetSettings.qml
 msgid "The shadow from the Plasma theme"
 msgstr "来自 Plasma 主题的阴影"
 
@@ -401,7 +415,15 @@ msgstr ""
 
 #: ../contents/ui/components/FormWidgetSettings.qml
 msgid ""
-"Make the System Tray expand button be the same width as the other tray items"
+"Make the System Tray expand button use the same size as the other tray items"
+msgstr ""
+
+#: ../contents/ui/components/FormWidgetSettings.qml
+msgid "Custom cell height:"
+msgstr ""
+
+#: ../contents/ui/components/FormWidgetSettings.qml
+msgid "Custom cell width:"
 msgstr ""
 
 #: ../contents/ui/components/FormWidgetSettings.qml
@@ -409,22 +431,29 @@ msgid "Force floating applets"
 msgstr ""
 
 #: ../contents/ui/components/FormWidgetSettings.qml
-msgid "Anchor to edges:"
-msgstr ""
-
-#: ../contents/ui/components/FormWidgetSettings.qml
-msgid "Resize content when panel enters/exits floating state"
-msgstr "当面板进入/退出浮动状态时，调整内容大小"
-
-#: ../contents/ui/components/FormWidgetSettings.qml
-msgid "Panel de-float:"
-msgstr "取消面板浮动"
+#: ../contents/ui/configPresetAutoload.qml
+msgid "Floating panel:"
+msgstr "浮动面板时："
 
 #: ../contents/ui/components/FormWidgetSettings.qml
 msgid ""
 "Remove custom background rounded corners and borders on screen edge when "
 "panel is not floating"
 msgstr "当面板未浮动时，移除屏幕边缘的自定义背景圆角与边框。"
+
+#: ../contents/ui/components/FormWidgetSettings.qml
+msgid ""
+"Resize panel length when panel enters/exits floating state (instead of just "
+"moving)"
+msgstr ""
+
+#: ../contents/ui/components/FormWidgetSettings.qml
+msgid "Hide panel:"
+msgstr ""
+
+#: ../contents/ui/components/FormWidgetSettings.qml
+msgid "When there are no widgets visible"
+msgstr ""
 
 #: ../contents/ui/components/FormWidgetSettings.qml
 msgid "Customization"
@@ -474,28 +503,21 @@ msgstr ""
 "才能生效。</strong>"
 
 #: ../contents/ui/components/FormWidgetSettings.qml
+msgid ""
+"C++ plugin not found, this feature will not work. Install the plugin and "
+"reboot or restart plasmashell to be able to use it. See <a "
+"href=\"%1\">install instructions</a>."
+msgstr ""
+
+#: ../contents/ui/components/FormWidgetSettings.qml
 msgid "Clipping (Experimental)"
 msgstr ""
 
 #: ../contents/ui/components/FormWidgetSettings.qml
 msgid ""
 "Clip the widget content to the custom background radius.<br>Clipping widgets "
-"against the panel is not supported yet but is planned for a later version, "
-"see <a href=\"https://github.com/luisbocanegra/plasma-panel-colorizer/"
-"issues/275\">#275</a>."
+"against the panel is not supported yet, see <a href=\"%1\">#275</a>."
 msgstr ""
-
-#: ../contents/ui/components/FormWidgetSettings.qml
-msgid ""
-"C++ plugin not found, this feature will not work. Install the plugin and "
-"reboot or restart plasmashell to be able to use it."
-msgstr ""
-"未找到 C++ 插件，该功能将无法使用。请安装插件并重启系统或 plasmashell 以启用"
-"此功能。"
-
-#: ../contents/ui/components/FormWidgetSettings.qml
-msgid "Plugin install instructions"
-msgstr "插件安装说明"
 
 #: ../contents/ui/components/FormWidgetSettings.qml
 msgid "Shape"
@@ -713,10 +735,8 @@ msgstr ""
 #: ../contents/ui/components/SupportMe.qml
 msgid ""
 "If you enjoy using the plugin please consider sponsoring or donating so I "
-"can dedicate more time to maintain and improve this and <a href=\"https://"
-"github.com/luisbocanegra?"
-"tab=repositories&q=&type=source&language=&sort=stargazers\">my other "
-"projects</a>."
+"can dedicate more time to maintain and improve this and <a href=\"%1\">my "
+"other projects</a>."
 msgstr ""
 
 #: ../contents/ui/components/SupportMe.qml
@@ -735,12 +755,20 @@ msgstr ""
 msgid "Translate %1 to your language"
 msgstr ""
 
+#: ../contents/ui/components/WidgetCardBlacklist.qml
 #: ../contents/ui/components/WidgetCardConfig.qml
 #: ../contents/ui/components/WidgetCardHide.qml
-#: ../contents/ui/components/WidgetCardIslands.qml
 #: ../contents/ui/components/WidgetCardTextIconFixes.qml
 msgid "System Tray"
 msgstr "系统托盘"
+
+#: ../contents/ui/components/WidgetCardBlacklist.qml
+msgid "Blacklist"
+msgstr ""
+
+#: ../contents/ui/components/WidgetCardConfig.qml
+msgid "Clear"
+msgstr ""
 
 #: ../contents/ui/components/WidgetCardConfig.qml
 msgid "Add"
@@ -749,18 +777,6 @@ msgstr "添加"
 #: ../contents/ui/components/WidgetCardHide.qml
 msgid "Hide"
 msgstr ""
-
-#: ../contents/ui/components/WidgetCardIslands.qml
-msgid "Disable"
-msgstr "禁用"
-
-#: ../contents/ui/components/WidgetCardIslands.qml
-msgid "Start"
-msgstr "起始"
-
-#: ../contents/ui/components/WidgetCardIslands.qml
-msgid "End"
-msgstr "结束"
 
 #: ../contents/ui/components/WidgetCardOverride.qml
 msgid "Edit"
@@ -787,9 +803,7 @@ msgstr "刷新"
 msgid ""
 "Not getting the expected result? Make sure you're editing the correct "
 "element.<br>Custom blur not working? Try reinstalling/rebuilding the C++ "
-"plugin using the latest source, <a href=\"https://github.com/luisbocanegra/"
-"plasma-panel-colorizer#build-from-source-with-c-plugin\">see instructions</"
-"a>."
+"plugin using the latest source, <a href=\"%1\">see instructions</a>."
 msgstr ""
 
 #: ../contents/ui/configAppearance.qml
@@ -812,6 +826,21 @@ msgstr "托盘挂件"
 
 #: ../contents/ui/configAppearance.qml
 msgid "Part of the panel on which the options below will be applied."
+msgstr ""
+
+#: ../contents/ui/configBlacklistWidgets.qml
+msgid ""
+"Blacklist widgets to keep their default appearance. A logout may be required "
+"for some widgets to fully restore their default appearance."
+msgstr ""
+
+#: ../contents/ui/configBlacklistWidgets.qml
+msgid "Blacklist spacers"
+msgstr ""
+
+#: ../contents/ui/configBlacklistWidgets.qml
+#: ../contents/ui/configTrayIconsReplacer.qml
+msgid "Remove all"
 msgstr ""
 
 #: ../contents/ui/configGeneral.qml
@@ -1075,10 +1104,6 @@ msgid "At least one window is visible:"
 msgstr "至少有一个窗口可见："
 
 #: ../contents/ui/configPresetAutoload.qml
-msgid "Floating panel:"
-msgstr "浮动面板时："
-
-#: ../contents/ui/configPresetAutoload.qml
 msgid "activity:"
 msgstr "活动："
 
@@ -1326,7 +1351,7 @@ msgid ""
 "configured preset auto-loading or know how to switch presets using D-Bus (or "
 "have disabled it), you will have no way to make it visible again without "
 "manually removing the configuration or Panel Colorizer, use the command "
-"below in terminal/tty then log out or reboot, it will renove the "
+"below in terminal/tty then log out or reboot, it will remove the "
 "configuration from all Panel Colorizer instances so make sure to save the "
 "others first"
 msgstr ""
@@ -1339,6 +1364,10 @@ msgid ""
 msgstr ""
 "若已启用 D-Bus，建议改用快捷键操作。详情请参阅 README 或查看常规标签页的示"
 "例。"
+
+#: ../contents/ui/configStockPanelSettings.qml
+msgid "D-Bus usage"
+msgstr ""
 
 #: ../contents/ui/configTextIconFix.qml
 msgid ""
@@ -1369,34 +1398,28 @@ msgid "Add new"
 msgstr ""
 
 #: ../contents/ui/configTrayIconsReplacer.qml
-msgid "Remove all"
-msgstr ""
-
-#: ../contents/ui/configTrayIconsReplacer.qml
 msgid "Sort"
 msgstr ""
 
 #: ../contents/ui/configTrayIconsReplacer.qml
 msgid ""
 "Replace System Tray icons with icons from the current icon theme or a local "
-"file. The built-in rules icons are part of <a href=\"https://github.com/"
-"PapirusDevelopmentTeam/papirus-icon-theme\">Papirus icon theme</a>."
+"file. The built-in rules icons are part of <a href=\"%1\">Papirus icon "
+"theme</a>."
 msgstr ""
 
 #: ../contents/ui/configTrayIconsReplacer.qml
 msgid ""
 "C++ plugin not found, this feature will not work. Install the plugin and "
-"reboot or restart plasmashell to be able to use it <a href=\"https://github."
-"com/luisbocanegra/plasma-panel-colorizer?tab=readme-ov-"
-"file#manually\">Install instructions</a>."
+"reboot or restart plasmashell to be able to use it <a href=\"%1\">Install "
+"instructions</a>."
 msgstr ""
 
 #: ../contents/ui/configTrayIconsReplacer.qml
 msgid ""
 "The installed version of the C++ plugin doesn't support this feature, update "
 "the plugin and reboot or restart plasmashell to be able to use it <a "
-"href=\"https://github.com/luisbocanegra/plasma-panel-colorizer?tab=readme-ov-"
-"file#manually\">Install instructions</a>."
+"href=\"%1\">Install instructions</a>."
 msgstr ""
 
 #: ../contents/ui/configTrayIconsReplacer.qml
@@ -1417,6 +1440,43 @@ msgstr ""
 
 #: ../contents/ui/configTrayIconsReplacer.qml
 msgid "How to use"
+msgstr ""
+
+#: ../contents/ui/configTrayIconsReplacer.qml
+msgid ""
+"1. Enable <b>Log icon changes</b> above<br>2. Run <b>journalctl -f</b> from "
+"terminal<br>3. Hover the System tray entry or trigger an icon change<br>4. "
+"Copy any of the properties: icon SHA1/name, title or name <br>5. Add a new "
+"rule with the SHA1/icon name/title/name you choose and specify the custom "
+"icon name or file"
+msgstr ""
+
+#: ../contents/ui/configTrayIconsReplacer.qml
+msgid ""
+"<b>Note</b>: There are some rules without icon as there was no matching one "
+"in Papirus, you can override those with your own icons by copying the rule "
+"to <b>User Replacements</b>"
+msgstr ""
+
+#: ../contents/ui/configTrayIconsReplacer.qml
+msgid ""
+"<b>Note</b>: Some applications like Signal are missing accumulated "
+"notification icons, contribution of missing icons via GitHub pull request or "
+"issue is very welcome, please do so by providing the the description + SHA1/"
+"title/name + icon-name from Papirus (panel/status icons only if no matching "
+"icon exists, otherwise it can be omitted)"
+msgstr ""
+
+#: ../contents/ui/configTrayIconsReplacer.qml
+msgid ""
+"<b>Note</b>: Matching properties (especially the SHA1) may change when "
+"applications get updated, rules will need to be updated when that happens."
+msgstr ""
+
+#: ../contents/ui/configTrayIconsReplacer.qml
+msgid ""
+"<b>Note</b>: Plasma widgets in the system tray are not supported by this "
+"feature as widgets provide their own visual content and logic."
 msgstr ""
 
 #: ../contents/ui/configTrayIconsReplacer.qml
@@ -1474,25 +1534,119 @@ msgid "Copy to User Rules"
 msgstr ""
 
 #: ../contents/ui/configTrayIconsReplacer.qml
-msgid "Copy rule"
+msgid "Duplicate rule"
+msgstr ""
+
+#: ../contents/ui/configWidgetIslands.qml
+msgid "Create widget islands by placing separator widgets around them."
 msgstr ""
 
 #: ../contents/ui/configWidgetIslands.qml
 msgid ""
-"Select start and end of widget islands, widgets between <b>Start</b> and "
-"<b>End</b> must be left <b>disabled</b>. Widget custom background or border "
-"is required for this option to have an effect."
+"<strong>How to use</strong><br>1. Add the widget that will act as islands "
+"separator to the panel(by default the Plasma's Panel Spacer widget will be "
+"used)<br>2. Select the separator widget below<br>3. Add as many separators "
+"as you need and move them to create islands."
 msgstr ""
-"选择widget islands的起始和结束，在<b>起始</b>和<b>结束</b>间的挂件需保持禁"
-"用。 设置挂件自定义背景或边框后才会生效。"
 
 #: ../contents/ui/configWidgetIslands.qml
-msgid "Remove all islands"
+msgid ""
+"<strong>Notes</strong><br>- Widget custom background or border is required "
+"for this option to have a visible effect.<br>- If the widgets in your panel "
+"have different thickness, add margins to the widgets custom background in "
+"the Appearance tab."
+msgstr ""
+
+#: ../contents/ui/configWidgetIslands.qml
+msgid ""
+"<strong>Need a separator widget?</strong><br>- <a href=\"%1\">Panel "
+"Colorizer Islands Separator</a> visible only in Edit Mode.<br>- <a "
+"href=\"%2\">Advanced Separator</a> always visible and configurable."
+msgstr ""
+
+#: ../contents/ui/configWidgetIslands.qml
+msgid "Separator widget:"
+msgstr ""
+
+#: ../contents/ui/configWidgetIslands.qml
+msgid ""
+"Select the widget that will act as separator for the islands.<br><br>Note "
+"that the separator widget itself does not need to be visible for it to work, "
+"so you can use an invisible spacer/separator for example."
+msgstr ""
+
+#: ../contents/ui/configWidgetIslands.qml
+msgid "Require two separators per island:"
+msgstr ""
+
+#: ../contents/ui/configWidgetIslands.qml
+msgid ""
+"Always require two separators for a group of widgets to become an island. By "
+"default, an arrangement of<br>%1 creates two islands.<br><br>Enabling this "
+"option makes it so that islands do not share separators, so for example an "
+"arrangement of<br>%2 is required to create two islands.<br><br>Enable this "
+"if your islands separator is not a panel spacer and you want to explicitly "
+"define the start and end of each island."
+msgstr ""
+
+#: ../contents/ui/configWidgetIslands.qml
+msgid "Blacklist separator widgets:"
+msgstr ""
+
+#: ../contents/ui/configWidgetIslands.qml
+msgid "Disable customization from separator widgets"
+msgstr ""
+
+#: ../contents/ui/main.qml
+msgid "This widget must be placed in a panel to work!"
 msgstr ""
 
 #: ../contents/ui/main.qml
 msgid "Hide widget (visible in panel Edit Mode)"
 msgstr "隐藏挂件（面板编辑模式下可见）"
+
+#: ../contents/ui/main.qml
+msgid ""
+"A Plasmashell restart is required to remove all the modifications made by "
+"%1. Run systemctl restart --user plasma-plasmashell or log out and log back "
+"in."
+msgstr ""
+
+#~ msgid "Disable"
+#~ msgstr "禁用"
+
+#~ msgid "Start"
+#~ msgstr "起始"
+
+#~ msgid "End"
+#~ msgstr "结束"
+
+#~ msgid ""
+#~ "Select start and end of widget islands, widgets between <b>Start</b> and "
+#~ "<b>End</b> must be left <b>disabled</b>. Widget custom background or "
+#~ "border is required for this option to have an effect."
+#~ msgstr ""
+#~ "选择widget islands的起始和结束，在<b>起始</b>和<b>结束</b>间的挂件需保持禁"
+#~ "用。 设置挂件自定义背景或边框后才会生效。"
+
+#~ msgid "Text/Icon Fixes"
+#~ msgstr "文本/图标修复"
+
+#~ msgid "Resize content when panel enters/exits floating state"
+#~ msgstr "当面板进入/退出浮动状态时，调整内容大小"
+
+#~ msgid "Panel de-float:"
+#~ msgstr "取消面板浮动"
+
+#~ msgid ""
+#~ "C++ plugin not found, this feature will not work. Install the plugin and "
+#~ "reboot or restart plasmashell to be able to use it."
+#~ msgstr ""
+#~ "未找到 C++ 插件，该功能将无法使用。请安装插件并重启系统或 plasmashell 以启"
+#~ "用此功能。"
+
+#~ msgid "Plugin install instructions"
+#~ msgstr "插件安装说明"
 
 #~ msgid ""
 #~ "<strong>Odd</strong> values are automatically converted to <strong>evens</"

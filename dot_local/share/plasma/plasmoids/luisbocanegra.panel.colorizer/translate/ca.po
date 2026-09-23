@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: colorizer\n"
 "Report-Msgid-Bugs-To: https://github.com/luisbocanegra/plasma-panel-colorizer\n"
-"POT-Creation-Date: 2026-02-05 20:38+0000\n"
+"POT-Creation-Date: 2026-08-09 07:39+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -54,8 +54,12 @@ msgid "Global Overrides"
 msgstr "Reescriptura global"
 
 #: ../contents/config/config.qml
-msgid "Text/Icon Fixes"
-msgstr "Reparació de text i icones"
+msgid "Text/Icon Color Fixes"
+msgstr "Canvis de color de text/icones"
+
+#: ../contents/config/config.qml
+msgid "Blacklist Widgets"
+msgstr "Llista negra de ginys"
 
 #: ../contents/config/config.qml
 msgid "Hide Widgets"
@@ -89,11 +93,15 @@ msgstr "Fons del giny"
 msgid "Panel not found, this widget must be placed on a panel to work"
 msgstr "El panell no s'ha trobat. Aquest giny s'ha de posar a dins d'un panell per tal que funcioni."
 
+#: ../contents/ui/components/FontFamilyChooser.qml
+msgid "Search fonts"
+msgstr "Cerca fonts"
+
 #: ../contents/ui/components/FormBorder.qml ../contents/ui/components/FormWidgetSettings.qml
 msgid "Border"
 msgstr "Vora"
 
-#: ../contents/ui/components/FormBorder.qml ../contents/ui/components/FormPadding.qml ../contents/ui/components/FormShadow.qml ../contents/ui/components/FormShape.qml ../contents/ui/configGeneral.qml ../contents/ui/configPresetAutoload.qml ../contents/ui/configStockPanelSettings.qml
+#: ../contents/ui/components/FormBorder.qml ../contents/ui/components/FormPadding.qml ../contents/ui/components/FormShadow.qml ../contents/ui/components/FormShape.qml ../contents/ui/configGeneral.qml ../contents/ui/configPresetAutoload.qml ../contents/ui/configStockPanelSettings.qml ../contents/ui/configWidgetIslands.qml
 msgid "Enabled:"
 msgstr "Activa:"
 
@@ -106,8 +114,8 @@ msgid "Width:"
 msgstr "Amplada:"
 
 #: ../contents/ui/components/FormBorder.qml
-msgid "Use an integer when using <strong>Widget Islands</strong> to avoid rendering issues! <a href=\"https://github.com/luisbocanegra/plasma-panel-colorizer/issues/64\">See #64</a>"
-msgstr "Feu servir un enter quan feu servir les <strong>Illes de ginys</strong> per a evitar problemes de renderització! <a href=\"https://github.com/luisbocanegra/plasma-panel-colorizer/issues/64\">Vegeu #64</a>"
+msgid "Use an integer when using <strong>Widget Islands</strong> to avoid rendering issues! See <a href=\"%1\">#64</a>."
+msgstr "Feu servir un enter quan es fan servir <strong>Illes de ginys</strong> per a evitar problemes de renderització. Vegeu <a href=\"%1\">#64</a>."
 
 #: ../contents/ui/components/FormBorder.qml
 msgid "Custom widths:"
@@ -330,6 +338,10 @@ msgid "Disable to make panel fully transparent, removes contrast and blur effect
 msgstr "Desactiveu-ho per tal que el panell sigui transparent del tot i traure'n tots els efectes de contrast i difuminat."
 
 #: ../contents/ui/components/FormWidgetSettings.qml
+msgid "⚠️ Disabling this breaks the panel clickable area and applet dialogs positioning when the panel is in floating mode! See <a href=\"%1\">#80</a>."
+msgstr "⚠️ Si es desactiva, fa fallar l'àrea on es pot fer clic del panell i la posició dels diàlegs de l'aplicació quan el panel està en mode flotant! Vegeu <a href=\"%1\">#80</a>."
+
+#: ../contents/ui/components/FormWidgetSettings.qml
 msgid "The shadow from the Plasma theme"
 msgstr "L'ombra del tema del Plasma"
 
@@ -362,28 +374,40 @@ msgid "Wide expand button:"
 msgstr "Botó d'expandeix a l'ample:"
 
 #: ../contents/ui/components/FormWidgetSettings.qml
-msgid "Make the System Tray expand button be the same width as the other tray items"
-msgstr "Fes que el botó d'expansió a l'ample tingui la mateixa amplada que els altres elements."
+msgid "Make the System Tray expand button use the same size as the other tray items"
+msgstr "Botó d'expansió de la safata del sistema amb la mateixa mida que els altres elements de la safata"
+
+#: ../contents/ui/components/FormWidgetSettings.qml
+msgid "Custom cell height:"
+msgstr "Alçària personalitzada de la casella:"
+
+#: ../contents/ui/components/FormWidgetSettings.qml
+msgid "Custom cell width:"
+msgstr "Amplada personalitzada de la casella:"
 
 #: ../contents/ui/components/FormWidgetSettings.qml
 msgid "Force floating applets"
 msgstr "Força miniaplicacions flotants"
 
-#: ../contents/ui/components/FormWidgetSettings.qml
-msgid "Anchor to edges:"
-msgstr "Ancora a les vores:"
-
-#: ../contents/ui/components/FormWidgetSettings.qml
-msgid "Resize content when panel enters/exits floating state"
-msgstr "Redimensiona el contingut quan el panell entri o surti de l'estat flotant."
-
-#: ../contents/ui/components/FormWidgetSettings.qml
-msgid "Panel de-float:"
-msgstr "Desflotització del panell:"
+#: ../contents/ui/components/FormWidgetSettings.qml ../contents/ui/configPresetAutoload.qml
+msgid "Floating panel:"
+msgstr "Panell flotant:"
 
 #: ../contents/ui/components/FormWidgetSettings.qml
 msgid "Remove custom background rounded corners and borders on screen edge when panel is not floating"
 msgstr "Trau el fons personalitzat i vores i cantonades arrodonides a la vora de la pantalla quan el panell no està flotant"
+
+#: ../contents/ui/components/FormWidgetSettings.qml
+msgid "Resize panel length when panel enters/exits floating state (instead of just moving)"
+msgstr "Canvia la llargada del panell quan entri o surti de l'estat flotant (en lloc de només quan es mou)"
+
+#: ../contents/ui/components/FormWidgetSettings.qml
+msgid "Hide panel:"
+msgstr "Amaga el panell:"
+
+#: ../contents/ui/components/FormWidgetSettings.qml
+msgid "When there are no widgets visible"
+msgstr "Quan no hi hagi ginys visibles"
 
 #: ../contents/ui/components/FormWidgetSettings.qml
 msgid "Customization"
@@ -426,20 +450,16 @@ msgid "Draw a custom blur mask behind the custom background(s).<br><strong>Nativ
 msgstr "Dibuixa una màscara difuminada personalitzada al darrera dels fons personalitzats.<br><strong>El fons nadiu del panell s'ha d'activar amb opacitat 0 per tal que pugui funcionar com s'espera.</strong>"
 
 #: ../contents/ui/components/FormWidgetSettings.qml
+msgid "C++ plugin not found, this feature will not work. Install the plugin and reboot or restart plasmashell to be able to use it. See <a href=\"%1\">install instructions</a>."
+msgstr "El complement C++ no s'ha trobat i aquesta característica no funcionarà. Instal·leu el complement i reinicieu l'ordinador o reinicieu el plasmashell per a poder-la fer servir. Vegeu les <a href=\"%1\">instruccions d'instal·lació</a>."
+
+#: ../contents/ui/components/FormWidgetSettings.qml
 msgid "Clipping (Experimental)"
 msgstr "Retallat (experimental)"
 
 #: ../contents/ui/components/FormWidgetSettings.qml
-msgid "Clip the widget content to the custom background radius.<br>Clipping widgets against the panel is not supported yet but is planned for a later version, see <a href=\"https://github.com/luisbocanegra/plasma-panel-colorizer/issues/275\">#275</a>."
-msgstr "Retalla les vores del contingut del giny segons el radi del fons personalitzat.<br>Retallar els ginys respecte el panell encara no se suporta, però està planificat per a properes versions. Vegeu <a href=\"https://github.com/luisbocanegra/plasma-panel-colorizer/issues/275\">#275</a>."
-
-#: ../contents/ui/components/FormWidgetSettings.qml
-msgid "C++ plugin not found, this feature will not work. Install the plugin and reboot or restart plasmashell to be able to use it."
-msgstr "No s'ha trobat el complement C++. Aquesta opció no funcionarà. Instal·leu el complement i reinicieu l'ordinador o el plasmashell per a fer-ho servir."
-
-#: ../contents/ui/components/FormWidgetSettings.qml
-msgid "Plugin install instructions"
-msgstr "Instruccions d'instal·lació del complement"
+msgid "Clip the widget content to the custom background radius.<br>Clipping widgets against the panel is not supported yet, see <a href=\"%1\">#275</a>."
+msgstr "Retalla el contingut del giny segons el radi del fons personalitzat.<br>Encara no es pot retallar els ginys respecte el panell. Vegeu <a href=\"%1\">#275</a>."
 
 #: ../contents/ui/components/FormWidgetSettings.qml
 msgid "Shape"
@@ -642,8 +662,8 @@ msgid "Thank you for using %1!"
 msgstr "Gràcies per fer servir l'%1!"
 
 #: ../contents/ui/components/SupportMe.qml
-msgid "If you enjoy using the plugin please consider sponsoring or donating so I can dedicate more time to maintain and improve this and <a href=\"https://github.com/luisbocanegra?tab=repositories&q=&type=source&language=&sort=stargazers\">my other projects</a>."
-msgstr "Si us agrada el complement, considereu fer una donació perquè pugui dedicar més temps a mantenir i millorar l'Acoloridor de panells i <a href=\"https://github.com/luisbocanegra?tab=repositories&q=&type=source&language=&sort=stargazers\">altres projectes meus</a>."
+msgid "If you enjoy using the plugin please consider sponsoring or donating so I can dedicate more time to maintain and improve this and <a href=\"%1\">my other projects</a>."
+msgstr "Si us agrada el complement, penseu si voleu ser patrocinador o fer una donació perquè pugui dedicar més temps a mantenir-lo i millorar-lo, tant aquest projecte com <a href=\"%1\">altres dels meus projectes</a>."
 
 #: ../contents/ui/components/SupportMe.qml
 msgid "You can also"
@@ -661,9 +681,17 @@ msgstr "Valorar el complement a la botiga del KDE"
 msgid "Translate %1 to your language"
 msgstr "Traduir l'%1 al vostre idioma"
 
-#: ../contents/ui/components/WidgetCardConfig.qml ../contents/ui/components/WidgetCardHide.qml ../contents/ui/components/WidgetCardIslands.qml ../contents/ui/components/WidgetCardTextIconFixes.qml
+#: ../contents/ui/components/WidgetCardBlacklist.qml ../contents/ui/components/WidgetCardConfig.qml ../contents/ui/components/WidgetCardHide.qml ../contents/ui/components/WidgetCardTextIconFixes.qml
 msgid "System Tray"
 msgstr "Safata del sistema"
+
+#: ../contents/ui/components/WidgetCardBlacklist.qml
+msgid "Blacklist"
+msgstr "Llista negra"
+
+#: ../contents/ui/components/WidgetCardConfig.qml
+msgid "Clear"
+msgstr "Esborra"
 
 #: ../contents/ui/components/WidgetCardConfig.qml
 msgid "Add"
@@ -672,18 +700,6 @@ msgstr "Afegeix"
 #: ../contents/ui/components/WidgetCardHide.qml
 msgid "Hide"
 msgstr "Amaga"
-
-#: ../contents/ui/components/WidgetCardIslands.qml
-msgid "Disable"
-msgstr "Desactiva"
-
-#: ../contents/ui/components/WidgetCardIslands.qml
-msgid "Start"
-msgstr "Inici"
-
-#: ../contents/ui/components/WidgetCardIslands.qml
-msgid "End"
-msgstr "Final"
 
 #: ../contents/ui/components/WidgetCardOverride.qml
 msgid "Edit"
@@ -706,8 +722,8 @@ msgid "Refresh"
 msgstr "Actualitza"
 
 #: ../contents/ui/configAppearance.qml
-msgid "Not getting the expected result? Make sure you're editing the correct element.<br>Custom blur not working? Try reinstalling/rebuilding the C++ plugin using the latest source, <a href=\"https://github.com/luisbocanegra/plasma-panel-colorizer#build-from-source-with-c-plugin\">see instructions</a>."
-msgstr "No aconseguiu el resultat esperat? Assegureu-vos que editeu l'element correcte.<br>La difuminació personalitzada no funciona? Proveu a reinstal·lar o tornar a construir el complement C++ amb l'última versió del codi: <a href=\"https://github.com/luisbocanegra/plasma-panel-colorizer#build-from-source-with-c-plugin\">mostra les instruccions</a>."
+msgid "Not getting the expected result? Make sure you're editing the correct element.<br>Custom blur not working? Try reinstalling/rebuilding the C++ plugin using the latest source, <a href=\"%1\">see instructions</a>."
+msgstr "No aconseguiu el resultat esperat? Assegureu-vos que editeu l'element correcte.<br>La difuminació personalitzada no funciona? Proveu a reinstal·lar o tornar a construir el complement C++ amb l'última versió del codi: <a href=\"%1\">mostra les instruccions</a>."
 
 #: ../contents/ui/configAppearance.qml
 msgid "Restore default (removes all customizations)"
@@ -728,6 +744,18 @@ msgstr "Ginys de la safata"
 #: ../contents/ui/configAppearance.qml
 msgid "Part of the panel on which the options below will be applied."
 msgstr "Part del panell a la qual s'aplicaran les opcions de sota."
+
+#: ../contents/ui/configBlacklistWidgets.qml
+msgid "Blacklist widgets to keep their default appearance. A logout may be required for some widgets to fully restore their default appearance."
+msgstr "Posa ginys a la llista negra per a mantenir-ne l'aparença. Potser caldrà sortir de la sessió perquè alguns ginys recuperin del tot la seva aparença per defecte."
+
+#: ../contents/ui/configBlacklistWidgets.qml
+msgid "Blacklist spacers"
+msgstr "Posa els espaiadors a la llista negra"
+
+#: ../contents/ui/configBlacklistWidgets.qml ../contents/ui/configTrayIconsReplacer.qml
+msgid "Remove all"
+msgstr "Trau-ho tot"
 
 #: ../contents/ui/configGeneral.qml
 msgid "Hide widget:"
@@ -948,10 +976,6 @@ msgstr "Finestra activa:"
 #: ../contents/ui/configPresetAutoload.qml
 msgid "At least one window is visible:"
 msgstr "Almenys una finestra visible"
-
-#: ../contents/ui/configPresetAutoload.qml
-msgid "Floating panel:"
-msgstr "Panell flotant:"
 
 #: ../contents/ui/configPresetAutoload.qml
 msgid "activity:"
@@ -1175,23 +1199,27 @@ msgstr "Mostra:"
 
 #: ../contents/ui/configStockPanelSettings.qml
 msgid ""
-"WARNING: Use Show/Hide with caution, if you hide the panel and have not configured preset auto-loading or know how to switch presets using D-Bus (or have disabled it), you will have no way to make it visible again without manually removing the configuration or Panel Colorizer, use the command below in terminal/tty then log out or reboot, it will renove the configuration from all Panel Colorizer "
+"WARNING: Use Show/Hide with caution, if you hide the panel and have not configured preset auto-loading or know how to switch presets using D-Bus (or have disabled it), you will have no way to make it visible again without manually removing the configuration or Panel Colorizer, use the command below in terminal/tty then log out or reboot, it will remove the configuration from all Panel Colorizer "
 "instances so make sure to save the others first"
 msgstr ""
-"AVÍS: Feu servir Mostra/Amaga amb compte. Si amagueu el panell i no teniu configurada la càrrega automàtica de perfils o no sabeu com canviar de perfil amb el D-Bus (o l'heu desactivat), no podreu tornar-lo a visibilitzar sense eliminar manualment la configuració o l'Acoloridor de panells. Feu servir la comanda de més a sota al terminal/tty i sortiu de la sessió o reinicieu. Així, es reiniciarà "
-"la configuració de totes les instàncies de l'Acoloridor de panells. Abans, però, potser us aniria bé desar una còpia de seguretat de totes les altres instàncies."
+"AVÍS: Feu servir Mostra/Amaga amb precaució. Si amagueu el panell i no heu configurat un perfil d'autocàrrega o no sabeu canviar de perfil amb el D-Bus (o ho teniu desactivat), no podreu tornar a fer-lo visible sense haver de traure tota la configuració o bé desinstal·lar l'Acoloridor de panells. Feu servir l'ordre de més avall en una terminal/tty quan sortiu de la sessió o reinicieu per tal de "
+"traure la configuració de totes les instàncies de l'Acoloridor de panells. Assegureu-vos de desar la configuració de totes les instàncies de l'Acoloridor abans de fer-ho."
 
 #: ../contents/ui/configStockPanelSettings.qml
 msgid "If you have D-Bus enabled is it recommended that you use that with shortcuts instead. Consult the README to learn more or see the General tab for some examples."
 msgstr "Si teniu el D-Bus activat, es recomana que el feu servir en lloc de les dreceres. Consulteu el LLEGEIX-ME per a saber més de la pestanya General i veure'n alguns exemples."
+
+#: ../contents/ui/configStockPanelSettings.qml
+msgid "D-Bus usage"
+msgstr "Ús del D-Bus"
 
 #: ../contents/ui/configTextIconFix.qml
 msgid ""
 "Fix text and icon colors/font for widgets where the normal method doesn't work or is reset by the widget.<br> - <strong>Mask</strong>: Force color on SVG icons, useful for symbolic icons.<br> - <strong>Color Effect</strong>: Force color on text and icons using post-processing effect, useful for non-symbolic icons.<br> - <strong>Refresh</strong>: Re-apply color/font at a fixed interval, useful "
 "for widgets that recreate or recolor content themselves.<br>To restore the <strong>Mask<strong> and <strong>Color Effect</strong> disable and restart Plasma or logout."
 msgstr ""
-"Canvia els colors de text, el tipus de lletra o la icona dels als ginys per als quals el mètode normal no funciona o l'efecte no és permanent.<br><strong>Màscara</strong>: Força l'acoloriment d'icones (icones simbòliques).<br><strong>Efecte de color</strong>: Força l'acoloriment de text/icones fent servir un efecte de post-processat (per a qualsevol icona).<br><strong>Actualitza</strong>: Torna "
-"a aplicar l'acoloriment o el tipus de lletra a un interval fixat, per a ginys que recreen o canvien el color del contingut per si mateixos<br>Per a restaurar la <strong>Màscara<strong> i l'<strong>Efecte de color</strong>, desactiveu i reinicieu el Plasma o sortiu de la sessió."
+"Canvia els colors de text, el tipus de lletra o la icona dels als ginys per als quals el mètode normal no funciona o l'efecte no és permanent.<br> ‒ <strong>Màscara</strong>: Força l'acoloriment d'icones (icones simbòliques).<br> ‒ <strong>Efecte de color</strong>: Força l'acoloriment de text/icones fent servir un efecte de post-processat (per a qualsevol icona).<br> ‒ <strong>Actualitza</"
+"strong>: Torna a aplicar l'acoloriment o el tipus de lletra a un interval fixat, per a ginys que recreen o canvien el color del contingut per si mateixos<br>Per a restaurar la <strong>Màscara<strong> i l'<strong>Efecte de color</strong>, desactiveu i reinicieu el Plasma o sortiu de la sessió."
 
 #: ../contents/ui/configTextIconFix.qml
 msgid "Restore default (removes all icon and text fixes)"
@@ -1210,24 +1238,20 @@ msgid "Add new"
 msgstr "Afegeix-ne una de nova"
 
 #: ../contents/ui/configTrayIconsReplacer.qml
-msgid "Remove all"
-msgstr "Trau-ho tot"
-
-#: ../contents/ui/configTrayIconsReplacer.qml
 msgid "Sort"
 msgstr "Ordena"
 
 #: ../contents/ui/configTrayIconsReplacer.qml
-msgid "Replace System Tray icons with icons from the current icon theme or a local file. The built-in rules icons are part of <a href=\"https://github.com/PapirusDevelopmentTeam/papirus-icon-theme\">Papirus icon theme</a>."
-msgstr "Substitueix icones de la safata d'entrada amb icones del tema actual o d'un fitxer local. Les icones de les regles internes són part del <a href=\"https://github.com/PapirusDevelopmentTeam/papirus-icon-theme\">tema d'icones Papirus</a>."
+msgid "Replace System Tray icons with icons from the current icon theme or a local file. The built-in rules icons are part of <a href=\"%1\">Papirus icon theme</a>."
+msgstr "Reemplaça les icones de la safata del sistema amb icones del tema d'icones actual o d'un fitxer local. Les regles internes de les icones formen part del <a href=\"%1\">tema d'icones Papirus</a>."
 
 #: ../contents/ui/configTrayIconsReplacer.qml
-msgid "C++ plugin not found, this feature will not work. Install the plugin and reboot or restart plasmashell to be able to use it <a href=\"https://github.com/luisbocanegra/plasma-panel-colorizer?tab=readme-ov-file#manually\">Install instructions</a>."
-msgstr "El complement C++ plugin no s'ha trobat. Aquesta funció no es pot fer servir. Instal·leu el complement i reinicieu el plasmashell per a fer-lo servir. <a href=\"https://github.com/luisbocanegra/plasma-panel-colorizer?tab=readme-ov-file#manually\">Instruccions d'instal·lació</a>."
+msgid "C++ plugin not found, this feature will not work. Install the plugin and reboot or restart plasmashell to be able to use it <a href=\"%1\">Install instructions</a>."
+msgstr "El complement C++ no s'ha trobat i aquesta funcionalitat no funcionarà. Instal·leu el complement i reinicieu l'ordinador o el plasmashell per a poder-ho fer servir. <a href=\"%1\">Instruccions d'instal·lació</a>"
 
 #: ../contents/ui/configTrayIconsReplacer.qml
-msgid "The installed version of the C++ plugin doesn't support this feature, update the plugin and reboot or restart plasmashell to be able to use it <a href=\"https://github.com/luisbocanegra/plasma-panel-colorizer?tab=readme-ov-file#manually\">Install instructions</a>."
-msgstr "La versió instal·lada del complement C++ no suporta aquesta funció. Actualitzeu el complement i reinicieu el plasmashell per a fer-lo servir. <a href=\"https://github.com/luisbocanegra/plasma-panel-colorizer?tab=readme-ov-file#manually\">Instruccions d'instal·lació</a>."
+msgid "The installed version of the C++ plugin doesn't support this feature, update the plugin and reboot or restart plasmashell to be able to use it <a href=\"%1\">Install instructions</a>."
+msgstr "La versió instal·lada del complement C++ no admet aquesta funcionalitat. Actualitzeu-lo i reinicieu l'ordinador o el plasmashell per a fer-ho servir. <a href=\"%1\">Instruccions d'instal·lació</a>"
 
 #: ../contents/ui/configTrayIconsReplacer.qml
 msgid "Log icon changes:"
@@ -1248,6 +1272,30 @@ msgstr "Mostra"
 #: ../contents/ui/configTrayIconsReplacer.qml
 msgid "How to use"
 msgstr "Com fer servir"
+
+#: ../contents/ui/configTrayIconsReplacer.qml
+msgid "1. Enable <b>Log icon changes</b> above<br>2. Run <b>journalctl -f</b> from terminal<br>3. Hover the System tray entry or trigger an icon change<br>4. Copy any of the properties: icon SHA1/name, title or name <br>5. Add a new rule with the SHA1/icon name/title/name you choose and specify the custom icon name or file"
+msgstr ""
+"1. Activeu els <b>registre de canvis d'icones</b> de més amunt.<br>2. Executeu <b>journalctl -f</b> en un terminal.<br>3. Passeu el ratolí per sobre de la safata del sistema o provoqueu un canvi d'icona.<br>4. Copieu qualssevol de les propietats: SHA1/nom de la icona, títol o nom.<br>5. Afegiu una regla nova amb el SH1/nom de la icona/títol/nom que escolliu i especifiqueu el fitxer o nom de la "
+"icona personalitzat."
+
+#: ../contents/ui/configTrayIconsReplacer.qml
+msgid "<b>Note</b>: There are some rules without icon as there was no matching one in Papirus, you can override those with your own icons by copying the rule to <b>User Replacements</b>"
+msgstr "<b>Nota</b>: Hi ha algunes regles sense icona, ja que el Papirus no té la icona corresponent. Podeu sobreescriure-ho amb les vostres pròpies icones si copieu la regla als <b>reemplaçaments d'usuari</b>."
+
+#: ../contents/ui/configTrayIconsReplacer.qml
+msgid "<b>Note</b>: Some applications like Signal are missing accumulated notification icons, contribution of missing icons via GitHub pull request or issue is very welcome, please do so by providing the the description + SHA1/title/name + icon-name from Papirus (panel/status icons only if no matching icon exists, otherwise it can be omitted)"
+msgstr ""
+"<b>Nota</b>: A algunes aplicacions com ara Signal els fan falta icones de notificacions acumulades. Si voleu, podeu ajudar el seu projecte si els feu arribar les icones que els fan falta a través d'una <i>pull request</i> o d'un <i>issue</i>via GitHub. Afegiu-hi una bona descripció + SHA1/títol/nom + nom de la icona del Papirus (les icones de panell/estat només si no hi ha cap icona coincident; "
+"altrament ho podeu ometre)."
+
+#: ../contents/ui/configTrayIconsReplacer.qml
+msgid "<b>Note</b>: Matching properties (especially the SHA1) may change when applications get updated, rules will need to be updated when that happens."
+msgstr "<b>Nota</b>: Les propietat coincidents (especialment l'SHA1) poden canviar quan les aplicacions s'actualitzen i caldrà actualitzar les regles quan passi."
+
+#: ../contents/ui/configTrayIconsReplacer.qml
+msgid "<b>Note</b>: Plasma widgets in the system tray are not supported by this feature as widgets provide their own visual content and logic."
+msgstr "<b>Nota</b>: Aquesta característica no suporta els ginys del Plasma de la safata del sistema, ja que els ginys proporcionen la seva lògica i contingut visual propis."
 
 #: ../contents/ui/configTrayIconsReplacer.qml
 msgid "Built-in Rules (read only)"
@@ -1304,114 +1352,82 @@ msgid "Copy to User Rules"
 msgstr "Copia a les regles d'usuari"
 
 #: ../contents/ui/configTrayIconsReplacer.qml
-msgid "Copy rule"
-msgstr "Copia la regla"
+msgid "Duplicate rule"
+msgstr "Duplica la regla"
 
 #: ../contents/ui/configWidgetIslands.qml
-msgid "Select start and end of widget islands, widgets between <b>Start</b> and <b>End</b> must be left <b>disabled</b>. Widget custom background or border is required for this option to have an effect."
-msgstr "Seleccioneu l'inici i final de les illes de ginys. Els ginys entre <b>Inici</b> i <b>Final</b> s'han de deixar <b>desactivats</b>. Cal un fons o vores del giny personalitzats per tal que tingui efecte."
+msgid "Create widget islands by placing separator widgets around them."
+msgstr "Creeu illes de ginys posant-hi ginys separadors al voltant."
 
 #: ../contents/ui/configWidgetIslands.qml
-msgid "Remove all islands"
-msgstr "Trau totes les illes"
+msgid "<strong>How to use</strong><br>1. Add the widget that will act as islands separator to the panel(by default the Plasma's Panel Spacer widget will be used)<br>2. Select the separator widget below<br>3. Add as many separators as you need and move them to create islands."
+msgstr "<strong>Com fer-ho servir</strong><br>1. Afegiu el giny que actuarà com a separador d'illes al panell ‒per defecte, es farà servir l'espaiador de panell del Plasma).<br>2. Seleccioneu el giny separador a sota.<br>3. Afegiu tants separadors com necessiteu i moveu-los per a crear les illes."
+
+#: ../contents/ui/configWidgetIslands.qml
+msgid "<strong>Notes</strong><br>- Widget custom background or border is required for this option to have a visible effect.<br>- If the widgets in your panel have different thickness, add margins to the widgets custom background in the Appearance tab."
+msgstr "<strong>Avisos</strong><br>‒ Cal un fons o vora personalitzada del giny per tal que aquesta opció tingui un efecte visible.<br>‒ Si els ginys del vostre panell tenen diferent gruix, afegiu marges al fons personalitzat dels ginys a la pestanya d'aparença."
+
+#: ../contents/ui/configWidgetIslands.qml
+msgid "<strong>Need a separator widget?</strong><br>- <a href=\"%1\">Panel Colorizer Islands Separator</a> visible only in Edit Mode.<br>- <a href=\"%2\">Advanced Separator</a> always visible and configurable."
+msgstr "<strong>Us cal un giny separador?</strong><br>‒ Els <a href=\"%1\">separadors d'illes de l'Acoloridor de panells</a>, visibles només en mode d'edició.<br>‒ Els <a href=\"%2\">separadors avançats</a>, sempre visibles i configurables."
+
+#: ../contents/ui/configWidgetIslands.qml
+msgid "Separator widget:"
+msgstr "Giny separador:"
+
+#: ../contents/ui/configWidgetIslands.qml
+msgid "Select the widget that will act as separator for the islands.<br><br>Note that the separator widget itself does not need to be visible for it to work, so you can use an invisible spacer/separator for example."
+msgstr "Trieu el giny que servirà de separador d'illes.<br><br>Tingueu en compte que el giny separador no cal que sigui visible perquè funcioni. Per això, podeu fer servir qualsevol espaiador/separador invisible."
+
+#: ../contents/ui/configWidgetIslands.qml
+msgid "Require two separators per island:"
+msgstr "Requereix dos separadors per illa:"
+
+#: ../contents/ui/configWidgetIslands.qml
+msgid ""
+"Always require two separators for a group of widgets to become an island. By default, an arrangement of<br>%1 creates two islands.<br><br>Enabling this option makes it so that islands do not share separators, so for example an arrangement of<br>%2 is required to create two islands.<br><br>Enable this if your islands separator is not a panel spacer and you want to explicitly define the start and "
+"end of each island."
+msgstr ""
+"Calen sempre dos separadors per tal que un grup de ginys formi una illa. Per defecte, una disposició de <br>%1 crea dues illes.<br><br>Si s'activa aquesta opció, fa que les illes no comparteixin separadors, com ara quan cal una disposició de <br>%2 per a crear dues illes.<br><br>Activeu-ho si el vostre separador d'illes no és un espaiador del panell i voleu definir explícitament l'inici i final "
+"de cada illa."
+
+#: ../contents/ui/configWidgetIslands.qml
+msgid "Blacklist separator widgets:"
+msgstr "Posa els ginys separadors a la llista negra:"
+
+#: ../contents/ui/configWidgetIslands.qml
+msgid "Disable customization from separator widgets"
+msgstr "Desactiva la personalització dels ginys separadors"
+
+#: ../contents/ui/main.qml
+msgid "This widget must be placed in a panel to work!"
+msgstr ""
 
 #: ../contents/ui/main.qml
 msgid "Hide widget (visible in panel Edit Mode)"
 msgstr "Amaga el giny (visible en Mode d'Edició del Panell)"
 
-#~ msgid "Matrix chat"
-#~ msgstr "Xat Matrix"
+#: ../contents/ui/main.qml
+msgid "A Plasmashell restart is required to remove all the modifications made by %1. Run systemctl restart --user plasma-plasmashell or log out and log back in."
+msgstr "Cal reiniciar el Plasmashell per a traure totes les modificacions de %1. Executeu systemctl restart --user plasma-plasmashell o sortiu i torneu a entrar a la sessió."
 
-#~ msgid "Discussions"
-#~ msgstr "Discussions"
+#~ msgid "Use an integer when using <strong>Widget Islands</strong> to avoid rendering issues! <a href=\"https://github.com/luisbocanegra/plasma-panel-colorizer/issues/64\">See #64</a>"
+#~ msgstr "Feu servir un enter quan feu servir les <strong>Illes de ginys</strong> per a evitar problemes de renderització! <a href=\"https://github.com/luisbocanegra/plasma-panel-colorizer/issues/64\">Vegeu #64</a>"
 
-#~ msgid "GitHub sponsors"
-#~ msgstr "Espònsors del GitHub"
+#~ msgid "If you enjoy using the plugin please consider sponsoring or donating so I can dedicate more time to maintain and improve this and <a href=\"https://github.com/luisbocanegra?tab=repositories&q=&type=source&language=&sort=stargazers\">my other projects</a>."
+#~ msgstr "Si us agrada el complement, considereu fer una donació perquè pugui dedicar més temps a mantenir i millorar l'Acoloridor de panells i <a href=\"https://github.com/luisbocanegra?tab=repositories&q=&type=source&language=&sort=stargazers\">altres projectes meus</a>."
 
-#~ msgid "My other projects"
-#~ msgstr "Altres projectes meus"
+#~ msgid "Not getting the expected result? Make sure you're editing the correct element.<br>Custom blur not working? Try reinstalling/rebuilding the C++ plugin using the latest source, <a href=\"https://github.com/luisbocanegra/plasma-panel-colorizer#build-from-source-with-c-plugin\">see instructions</a>."
+#~ msgstr "No aconseguiu el resultat esperat? Assegureu-vos que editeu l'element correcte.<br>La difuminació personalitzada no funciona? Proveu a reinstal·lar o tornar a construir el complement C++ amb l'última versió del codi: <a href=\"https://github.com/luisbocanegra/plasma-panel-colorizer#build-from-source-with-c-plugin\">mostra les instruccions</a>."
 
-#~ msgid "Use an integer when using <strong>Widget Islands</strong> to avoid rendering issues! <a href=\"https://github.com/luisbocanegra/plasma-panel-colorizer/issues/64\">See #64<a/>"
-#~ msgstr "Feu servir enters per a les <strong>Illes de ginys</strong> per a evitar problemes de renderització. <a href=\"https://github.com/luisbocanegra/plasma-panel-colorizer/issues/64\">Vegeu #64<a/>"
+#~ msgid "Replace System Tray icons with icons from the current icon theme or a local file. The built-in rules icons are part of <a href=\"https://github.com/PapirusDevelopmentTeam/papirus-icon-theme\">Papirus icon theme</a>."
+#~ msgstr "Substitueix icones de la safata d'entrada amb icones del tema actual o d'un fitxer local. Les icones de les regles internes són part del <a href=\"https://github.com/PapirusDevelopmentTeam/papirus-icon-theme\">tema d'icones Papirus</a>."
 
-#~ msgid "<strong>Odd</strong> values are automatically converted to <strong>evens</strong> if <strong>Unified Background</strong> feature is used."
-#~ msgstr "Els valors <strong>imparells</strong> es converteixen automàticament en <strong>parells</strong> si es fa servir l'opció <strong>Fons Unificat</strong>."
+#~ msgid "C++ plugin not found, this feature will not work. Install the plugin and reboot or restart plasmashell to be able to use it <a href=\"https://github.com/luisbocanegra/plasma-panel-colorizer?tab=readme-ov-file#manually\">Install instructions</a>."
+#~ msgstr "El complement C++ plugin no s'ha trobat. Aquesta funció no es pot fer servir. Instal·leu el complement i reinicieu el plasmashell per a fer-lo servir. <a href=\"https://github.com/luisbocanegra/plasma-panel-colorizer?tab=readme-ov-file#manually\">Instruccions d'instal·lació</a>."
 
-#~ msgid "Remove all unified areas"
-#~ msgstr "Trau totes les àrees unificades"
+#~ msgid "The installed version of the C++ plugin doesn't support this feature, update the plugin and reboot or restart plasmashell to be able to use it <a href=\"https://github.com/luisbocanegra/plasma-panel-colorizer?tab=readme-ov-file#manually\">Install instructions</a>."
+#~ msgstr "La versió instal·lada del complement C++ no suporta aquesta funció. Actualitzeu el complement i reinicieu el plasmashell per a fer-lo servir. <a href=\"https://github.com/luisbocanegra/plasma-panel-colorizer?tab=readme-ov-file#manually\">Instruccions d'instal·lació</a>."
 
-#~ msgid ""
-#~ "Fix text and icon colors for widgets where the normal method doesn't work or isn't permanent.<br> - <strong>Mask</strong>: Force color on SVG icons, useful for symbolic icons.<br> - <strong>Color Effect</strong>: Force color on text and icons using post-processing effect, useful for non-symbolic icons.<br> - <strong>Refresh</strong>: Re-apply color at a fixed interval, useful for widgets "
-#~ "that recreate or recolor content themselves<br>To restore the <strong>Mask<strong> and <strong>Color Effect</strong> disable and restart Plasma or logout."
-#~ msgstr ""
-#~ "Arregla els colors de les icones i els textos dels ginys on el mètode normal no funciona o no és permanent.<br> - <strong>Màscara</strong>: Força un color a les icones SVG. Útil per a icones simbòliques.<br> - <strong>Efecte de color</strong>: Força un color al text i les icones amb un efecte de post-processat. Útil per a icones no simbòliques.<br> - <strong>Actualitza</strong>: Torna a "
-#~ "aplicar el color regularment cada determinat període de temps. Útil per a ginys que recreen o canvien el color per si mateixos.<br>Per a restaurar la <strong>Màscara<strong> i l'<strong>Efecte de color</strong>, desactiveu i reinicieu el Plasma o sortiu de la sessió."
-
-#~ msgid "SHA1"
-#~ msgstr "SHA1"
-
-#~ msgid "Original icon SHA1"
-#~ msgstr "SHA1 de la icona original"
-
-#~ msgctxt "@info:tooltip"
-#~ msgid "Icon name is \"%1\""
-#~ msgstr "El nom de la icona és «%1»."
-
-#~ msgid "Text and icon fixes"
-#~ msgstr "Arranjaments de text i icones"
-
-#~ msgid "visible in Panel Edit Mode"
-#~ msgstr "Visible en Mode d'Edició del Panell"
-
-#~ msgid "Unified widget backgrounds"
-#~ msgstr "Fons unificats dels ginys"
-
-#~ msgid "Text and icons"
-#~ msgstr "Text i icones"
-
-#~ msgid "customization"
-#~ msgstr "personalització"
-
-#~ msgid "Not getting the expected result? Make sure you're editing the correct element."
-#~ msgstr "No aconseguiu el resultat esperat? Assegureu-vos que editeu l'element correcte."
-
-#~ msgid ""
-#~ "Fix text and icon colors for widgets where the normal method doesn't work or isn't permanent.<br><strong>Mask</strong>: Force Icon colorization (symbolic icons).<br><strong>Color Effect</strong>: Force Text/Icons colorization using post-processing effect (any icon).<br><strong>Refresh</strong>: Re-apply colorization at a fixed interval, for widgets that recreate or recolor content "
-#~ "themselves<br>To restore the <strong>Mask<strong> and <strong>Color Effect</strong> disable and restart Plasma or logout."
-#~ msgstr ""
-#~ "Arregla els colors de text i d'icona per als ginys per als quals el mètode normal no funciona o l'efecte no és permanent.<br><strong>Màscara</strong>: Força l'acoloriment d'icones (icones simbòliques).<br><strong>Efecte de color</strong>: Força l'acoloriment de text/icones fent servir un efecte de post-processat (per a qualsevol icona).<br><strong>Actualitza</strong>: Torna a aplicar "
-#~ "l'acoloriment a un interval fixat, per a ginys que recreen o canvien el color del contingut per si mateixos<br>Per a restaura la <strong>Màscara<strong> i l'<strong>Efecte de color</strong>, desactiveu i reinicieu el Plasma o sortiu de la sessió."
-
-#~ msgid "Each Panel Colorizer instance has its D-Bus name."
-#~ msgstr "Cada instància de l'Acoloridor de Panells té el seu nom de D-Bus."
-
-#~ msgid "Usage:"
-#~ msgstr "Ús:"
-
-#~ msgid "Create configuration overrides and apply them to one or multiple widgets. These overrides are independent and will be applied on top of the current settings and across presets."
-#~ msgstr "Crea una configuració de sobreescriptura i l'aplica a un o diversos ginys. Aquestes sobreescriptures són independents i s'aplicaran al damunt de la configuració actual i als diferents perfils."
-
-#~ msgid "Switch between different presets based on the Panel and window states.<br>Disable preset auto-loading when making changes to presets, unsaved preset settings will be lost when presets change!"
-#~ msgstr "Canvia entre perfils diferents segons els estats del panell i de les finestres.<br>Si es desactiva la càrrega automàtica de perfils mentre es fan canvis als perfils, els canvis sense desar es perdran quan canvieu de perfil."
-
-#~ msgid "Restore default (removes all autoloading conditions)"
-#~ msgstr "Restaura els valors per defecte (trau totes les condicions de càrrega automàtica)"
-
-#~ msgid "Environment"
-#~ msgstr "Entorn"
-
-#~ msgid ""
-#~ "WARNING: Use with caution, if you hide the panel and have not configured preset auto-loading or know how to switch presets using D-Bus (or have disabled it), you will have no way to make it visible again without manually removing the configuration, use the command below in terminal/tty then log out or reboot, it will renove the configuratiob from all Panel Colorizer instances so make sure to "
-#~ "save the others first"
-#~ msgstr ""
-#~ "AVÍS: Feu-ho servir amb compte. Si amagueu el panell i no heu configurat la càrrega automàtica de perfils o sabeu com canviar de perfil amb el D-Bus ‒o l'heu desactivat‒, no podreu fer-lo visible de nou sense traure manualment la configuració. Feu servir l'ordre següent al terminal/tty i tanqueu sessió o reinicieu. Renovarà la configuració de totes les instàncies de l'Acoloridor de Panells "
-#~ "per a assegurar que es desin primer les altres"
-
-#~ msgid "Select start and end of unified background areas, widgets between <b>Start</b> and <b>End</b> must be left <b>disabled</b>. Note: <strong>odd</strong> widget spacing values are automatically converted to <strong>evens</strong> when this feature is used."
-#~ msgstr "Trieu l'inici i final de les àrees de fons unificat. Els ginys entre l'<b>Inici</b> i el <b>Final</b> han d'estar <b>desactivats</b> a l'esquerra. Nota: els valors d'espaiat <strong>imparells</strong> es convertiran automàticament a <strong>parells</strong> quan es fa servir aquesta funció."
-
-#~ msgid "Restore default (removes all unified areas)"
-#~ msgstr "Restaura els valors per defecte (trau les àrees unificades)"
-
-#~ msgid "Force floating dialogs"
-#~ msgstr "Força els diàlegs flotants"
+#~ msgid "Copy rule"
+#~ msgstr "Copia la regla"

@@ -220,7 +220,6 @@ function getWidgetProperties(
     plasmaVersion,
     inTray,
     panelColorizer,
-    logIconChanges,
 ) {
     let name = "";
     let id = -1;
@@ -228,6 +227,7 @@ function getWidgetProperties(
     let needsAttention = false;
     let busy = false;
     let trayIconHash = "";
+    let iconName = "";
     let title = "";
     if (item.applet?.plasmoid?.pluginName) {
         const applet = item.applet;
@@ -259,7 +259,8 @@ function getWidgetProperties(
                         iconSource = model.AttentionIconName;
                     }
                 } else {
-                    iconSource = model.Icon || model.IconName;
+                    iconSource = model.Icon;
+                    iconName = model.Icon?.name || model.IconName;
                 }
                 if (panelColorizer && iconSource) {
                     if (typeof panelColorizer.getIconHash !== "function") {
@@ -270,15 +271,18 @@ function getWidgetProperties(
                         );
                     } else {
                         try {
-                            trayIconHash = panelColorizer.getIconHash(
-                                iconSource,
-                                logIconChanges,
-                            );
+                            trayIconHash = panelColorizer.getIconHash(iconSource);
                         } catch (e) {
                             console.error(e.message, "\n", e.stack);
                         }
                     }
                 }
+                break;
+            } else if (model.itemType === "BackgroundApp") {
+                name = model.itemId;
+                title = model.name || model.message;
+                needsAttention = pcTypes.NeedsAttentionStatus === model.status;
+                iconName = model.icon;
                 break;
             } else if (model.itemType === "Plasmoid") {
                 const applet = model.applet;
@@ -286,8 +290,7 @@ function getWidgetProperties(
                 title = applet?.plasmoid.title ?? "";
                 id = inTray ? -1 : (applet.plasmoid.id ?? -1);
                 expanded = applet.compactRepresentationItem !== null && applet.expanded;
-                needsAttention =
-                    pcTypes.NeedsAttentionStatus === applet.plasmoid.status;
+                needsAttention = pcTypes.NeedsAttentionStatus === applet.plasmoid.status;
                 busy = applet.plasmoid.busy;
                 break;
             }
@@ -302,6 +305,7 @@ function getWidgetProperties(
         busy,
         hovered,
         trayIconHash,
+        iconName
     };
 }
 
@@ -582,69 +586,6 @@ function getGlobalPosition(rect, panelElement) {
     return rect.mapToItem(panelElement, 0, 0, rect.width, rect.height);
 }
 
-function getUnifyBgTypes(itemTypes) {
-    // 0: default or middle | 1: start | 2: end
-    let areas = [[]];
-    for (let i = 0; i < itemTypes.length; i++) {
-        const item = itemTypes[i];
-        if (!item) continue;
-
-        areas[areas.length - 1].push(item);
-        if (
-            (itemTypes.length > i + 1 && itemTypes[i + 1]?.type === 1) ||
-            itemTypes[i]?.type === 3
-        ) {
-            areas[areas.length] = [];
-        }
-    }
-    // remove invalid areas
-    areas = removeInvalidAreas(areas);
-    areas.forEach((area) => shrinkAreaIfNeeded(area));
-    // shrinking may leave invalid areas
-    areas = removeInvalidAreas(areas);
-    areas = setMiddleAreaType(areas);
-    return Array.prototype.concat.apply([], areas);
-}
-
-function setMiddleAreaType(areas) {
-    areas.forEach((area) => {
-        return area.forEach((item, index) => {
-            if (index !== area.length - 1 && index !== 0) {
-                item.type = 2;
-            }
-        });
-    });
-    return areas;
-}
-
-function removeInvalidAreas(areas) {
-    return areas.filter((area) => {
-        return (
-            area.length > 1 && area[0].type === 1 && area[area.length - 1].type === 3
-        );
-    });
-}
-
-function shrinkAreaIfNeeded(area) {
-    let lo = 0;
-    let hi = area.length - 1;
-    while (lo < hi) {
-        if (!area[0].visible) {
-            // shift start to next item
-            area[1].type = area[0].type;
-            area.shift();
-        }
-        if (!area[area.length - 1].visible) {
-            // shift end to next item
-            area[area.length - 2].type = area[area.length - 1].type;
-            area.pop();
-        }
-        lo++;
-        hi--;
-    }
-    return area;
-}
-
 function setPanelModeScript(panelId, panelSettings) {
     var setPanelModeScript = `
 var panel = panelById(${panelId});
@@ -684,15 +625,6 @@ function clearOldWidgetConfig(config) {
     if (Array.isArray(config)) {
         return config;
     } else return [];
-}
-
-function fixV2UnifiedWidgetConfig(config) {
-    config.forEach((widget) => {
-        if (widget.unifyBgType === 2) {
-            widget.unifyBgType = 3;
-        }
-    });
-    return config;
 }
 
 function getWidgetConfigIdx(id, name, config) {
@@ -929,7 +861,7 @@ function showTrayAreas(trayGridView, backgroundComponent) {
         let index = 0;
         for (let i = 0; i < trayGridView.count; i++) {
             const item = trayGridView.itemAtIndex(i);
-            if (!item.visible) continue;
+            if (!item || !item.visible) continue;
             const bgItem = getBgManaged(item);
             if (!bgItem) {
                 backgroundComponent.createObject(item, {
@@ -941,9 +873,7 @@ function showTrayAreas(trayGridView, backgroundComponent) {
             } else {
                 bgItem.targetIndex = index;
             }
-            if (item.visible) {
-                index++;
-            }
+            index++;
         }
 
         for (let i in trayGridView.parent.children) {
@@ -1124,15 +1054,6 @@ function applyFgColor(
     };
 }
 
-function updateUnifiedBackgroundTracker(index, type, visible, tracker) {
-    tracker[index] = {
-        index: index,
-        type: type,
-        visible: visible,
-    };
-    return getUnifyBgTypes(tracker);
-}
-
 /**
  * Finds and returns an icon from the replacement rules if it matches the tray item properties
  * @param {Array} rules Replacement rules
@@ -1163,4 +1084,174 @@ function getTrayIconFromRules(rules, trayItemProperties) {
 // https://invent.kde.org/plasma/plasma-workspace/-/blob/d5ca4251661b5adfdb9b87a4c932ed6971376cbe/applets/digital-clock/DigitalClock.qml#L133
 function pointToPixel(pointSize) {
     return Math.round(pointSize / 72 * main.pixelsPerInch);
+}
+
+/**
+ * Calculates types of each widget to create islands
+ * @param {GridLayout} panelLayout - The panel's widgets layout
+ * @param {Set<int>} noBgTracker - IDs of widgets with background disabled or blacklisted
+ * @param {Set<int>} hiddenTracker - IDs of widgets that are currently hidden
+ * @param {string} islandSeparatorWidget - Widget used as island separator
+ * @param {boolean} islandsEnabled - Enable/disable island functionality
+ * @param {boolean} islandSeparatorPairing - Treat separators as pairs (start and end) instead of sharing the separator between two islands
+ * @returns {{islandTypes: Array<{id: int, name: string, type: Enum.IslandSectionType}>, widgetTypes: Array<{id: int, name: string, type: string}>}} Object containing island and widget types
+ */
+function updateIslandWidgetTypes(panelLayout, noBgTracker, hiddenTracker, islandSeparatorWidget, islandsEnabled, islandSeparatorPairing) {
+    if (!panelLayout) {
+        return { islandTypes: [], widgetTypes: [] };
+    }
+
+    const SectionType = Enum.IslandSectionType;
+
+    let islandTypes = [];
+    const widgetTypes = [];
+    let totalSeparators = 0;
+
+    for (let i = 0; i < panelLayout.children.length; i++) {
+        const current = panelLayout.children[i];
+        if (!current.applet?.plasmoid?.pluginName)
+            continue;
+
+        const currentName = current.applet.plasmoid.pluginName;
+        const currentId = current.applet.plasmoid.id;
+        const currentIsHidden = hiddenTracker.has(currentId);
+        const currentIsBlank = noBgTracker.has(currentId) && !currentIsHidden;
+        const currentIsSeparator = currentName === islandSeparatorWidget;
+
+        if (currentIsSeparator) {
+            totalSeparators++;
+            widgetTypes.push({
+                type: "separator",
+                id: currentId,
+                name: currentName,
+                hidden: currentIsHidden,
+            });
+        } else if (currentIsBlank) {
+            widgetTypes.push({
+                type: "blank",
+                id: currentId,
+                name: currentName,
+                hidden: currentIsHidden,
+            });
+        } else if (currentIsHidden) {
+            widgetTypes.push({
+                type: "hidden",
+                id: currentId,
+                name: currentName,
+                hidden: currentIsHidden,
+            });
+        } else {
+            widgetTypes.push({
+                type: "widget",
+                id: currentId,
+                name: currentName,
+                hidden: currentIsHidden,
+            });
+        }
+    }
+
+    if (!islandsEnabled) {
+        return { islandTypes: [], widgetTypes };
+    }
+
+    function pushWidget(item, type) {
+        islandTypes.push({
+            id: item.id,
+            name: item.name,
+            type: type,
+        });
+    }
+
+    // Pass 1: split into separator-delimited groups and mark active groups.
+    const groups = [];
+    let separatorsSeen = 0;
+    let groupStart = 0;
+
+    function pushGroup(end) {
+        if (groupStart > end) {
+            return;
+        }
+        const active = !islandSeparatorPairing
+            ? true
+            : (separatorsSeen % 2 === 1 && separatorsSeen < totalSeparators);
+        groups.push({
+            start: groupStart,
+            end: end,
+            active: active,
+        });
+    }
+
+    for (let i = 0; i < widgetTypes.length; i++) {
+        if (widgetTypes[i].type !== "separator") {
+            continue;
+        }
+
+        pushGroup(i - 1);
+        separatorsSeen++;
+        groupStart = i + 1;
+    }
+
+    // Flush trailing non-separator group.
+    pushGroup(widgetTypes.length - 1);
+
+    function pushWidgetChunk(start, end) {
+        let firstWidgetIndex = -1;
+        let lastWidgetIndex = -1;
+        let widgetCount = 0;
+
+        for (let i = start; i <= end; i++) {
+            if (widgetTypes[i].type === "widget") {
+                if (firstWidgetIndex === -1) {
+                    firstWidgetIndex = i;
+                }
+                lastWidgetIndex = i;
+                widgetCount++;
+            }
+        }
+
+        for (let i = start; i <= end; i++) {
+            const current = widgetTypes[i];
+            if (current.type !== "widget" || widgetCount < 2) {
+                pushWidget(current, SectionType.Default);
+                continue;
+            }
+
+            if (i === firstWidgetIndex) {
+                pushWidget(current, SectionType.Start);
+            } else if (i === lastWidgetIndex) {
+                pushWidget(current, SectionType.End);
+            } else {
+                pushWidget(current, SectionType.Middle);
+            }
+        }
+    }
+
+    // Pass 2: assign section type within each active group, splitting on blanks.
+    for (const group of groups) {
+        if (!group.active) {
+            for (let i = group.start; i <= group.end; i++) {
+                pushWidget(widgetTypes[i], SectionType.Default);
+            }
+            continue;
+        }
+
+        let chunkStart = group.start;
+        for (let i = group.start; i <= group.end + 1; i++) {
+            const atGroupEnd = i === group.end + 1;
+            const atBlank = !atGroupEnd && widgetTypes[i].type === "blank";
+            if (!atGroupEnd && !atBlank) {
+                continue;
+            }
+
+            if (chunkStart <= i - 1) {
+                pushWidgetChunk(chunkStart, i - 1);
+            }
+            if (atBlank) {
+                pushWidget(widgetTypes[i], SectionType.Default);
+            }
+            chunkStart = i + 1;
+        }
+    }
+
+    return { islandTypes, widgetTypes };
 }
