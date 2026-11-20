@@ -1,0 +1,4 @@
+#!/bin/sh
+# Use the repo's tracked git hooks (.githooks/pre-commit strips machine-specific
+# Plasma state before commits). Runs once per machine.
+git -C {{ .chezmoi.sourceDir | quote }} config core.hooksPath .githooks

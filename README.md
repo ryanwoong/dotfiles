@@ -1,6 +1,6 @@
 # Fedora KDE Plasma dotfiles
 
-This repository is a [chezmoi](https://www.chezmoi.io/) source directory for a my personal
+This repository is a [chezmoi](https://www.chezmoi.io/) source directory for my personal
 Fedora KDE Plasma installation.
 
 ## What is included
@@ -9,7 +9,9 @@ Fedora KDE Plasma installation.
 | ------------------------------------------------------------ | --------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
 | `dot_zprofile`                                               | `~/.zprofile`                                       | Login-shell PATH additions, including JetBrains Toolbox.                                                               |
 | `dot_config/kitty/`                                          | `~/.config/kitty/`                                  | Kitty configuration and the Ayu, Flatland and Espresso themes. Ayu is selected by default.                             |
-| `dot_config/private_plasma-org.kde.plasma.desktop-appletsrc` | `~/.config/plasma-org.kde.plasma.desktop-appletsrc` | Plasma panel layout, widgets, launchers, and wallpaper references (machine-specific state stripped; see below).                                             |
+| `dot_config/private_plasma-org.kde.plasma.desktop-appletsrc` | `~/.config/plasma-org.kde.plasma.desktop-appletsrc` | Plasma panel layout, widgets, launchers, and wallpaper references (machine-specific state stripped; see below).        |
+| `dot_config/private_kactivitymanagerdrc`                    | `~/.config/kactivitymanagerdrc`                     | Plasma activity ID, so the desktop settings in `appletsrc` attach to the current activity.                              |
+| `dot_local/share/fonts/`                                     | `~/.local/share/fonts/`                             | FantasqueSansM Nerd Font (kitty) and Inter (KDE UI and panel clock).                                                   |
 | `dot_local/share/aurorae/`                                   | `~/.local/share/aurorae/`                           | Orchis window-decoration themes.                                                                                       |
 | `dot_local/share/color-schemes/`                             | `~/.local/share/color-schemes/`                     | Orchis and Orchis Dark colour schemes.                                                                                 |
 | `dot_local/share/icons/Reversal/`                            | `~/.local/share/icons/Reversal/`                    | Reversal icon theme.                                                                                                   |
@@ -19,50 +21,53 @@ Fedora KDE Plasma installation.
 
 ## Install on a new Fedora KDE system
 
-Install chezmoi and the basic applications first:
+Log in to the Plasma desktop once, open a terminal, and run:
 
 ```sh
-sudo dnf install chezmoi git zsh fzf lsd kitty
-```
-
-Preview the changes before writing anything. This clones the repository into
-chezmoi's source directory and shows the changes that would be made:
-
-```sh
-chezmoi init https://github.com/ryanwoong/dotfiles.git
-chezmoi diff
-```
-
-If the diff looks right, apply the files:
-
-```sh
-chezmoi apply -v
-```
-
-For a one-command install, use:
-
-```sh
+sudo dnf install chezmoi
 chezmoi init --apply https://github.com/ryanwoong/dotfiles.git
 ```
 
-Log out and back in afterwards, or restart Plasma with `kquitapp6 plasmashell
-&& kstart plasmashell`, so KDE reloads the new configuration.
+Enter your sudo password when asked. That one `chezmoi` command:
 
-## Important first-time checks
+1. **Installs packages** (`.chezmoiscripts/run_once_before_10-install-packages.sh`,
+   once per machine): kitty, python3, the Vinyl launcher from the
+   `ekaaty/kde-extras` COPR, VS Code, SourceGit, and Obsidian and Discord from
+   Flathub.
+2. **Stops Plasma** (`run_onchange_before_20-stop-plasma`) so it cannot
+   overwrite the new panel layout when it exits.
+3. **Writes the files**: kitty, `.zprofile`, the Plasma panel layout, the
+   activity ID, fonts, and the Orchis/Reversal themes and widgets.
+4. **Selects the theme** (`run_onchange_after_20-apply-theme.sh`): Orchis
+   global theme, colours, Plasma style and window decorations, Reversal icons
+   and Inter UI fonts.
+5. **Starts Plasma again** (`run_onchange_after_90-start-plasma`).
+6. **Enables the git pre-commit hook** for this repository (once per machine).
 
-The Plasma configuration is a snapshot of one machine's panels. Before
-applying it, review the output of `chezmoi diff`, especially if you already
-have a customized desktop. `plasma-org.kde.plasma.desktop-appletsrc` still
-contains:
+Log out and back in once afterwards so every application picks up the fonts and
+theme.
 
-- Panels and desktops for three screens (`lastScreen=0`, `1`, `2`).
-- The Plasma activity ID of the original install (`activityId=`).
-- Absolute wallpaper paths under `~/Pictures/wallpapers/`, which are not part
-  of this repository, and app launchers for VS Code, Obsidian, Discord and
-  SourceGit.
+To preview first instead, run `chezmoi init https://github.com/ryanwoong/dotfiles.git`
+and `chezmoi diff`, then `chezmoi apply -v`.
 
-Kitty is configured for `FantasqueSansM Nerd Font Mono Bold`; install that
-Nerd Font or choose another font in `~/.config/kitty/kitty.conf`.
+### Not included
+
+- **Wallpapers**: the panels expect `~/Pictures/wallpapers/`, which is too large
+  for GitHub (the images are 130 to 160 MB each). Copy that folder over, or
+  pick a wallpaper in System Settings.
+- **Mouse, keyboard and touchpad settings**: tied to specific devices, so
+  configure them per machine (see `kcminputrc` below).
+- **Extra monitors**: the layout has panels for three screens. On a machine
+  with fewer screens only the panels for the connected screens appear.
+
+### Running `chezmoi apply` on the original machine
+
+The scripts also run on the computer this repo came from. The package step
+will ask for sudo (everything is already installed), and Plasma restarts with
+the panel layout **from the repository**. If you changed the panels since the
+last commit, save those changes first with
+`chezmoi re-add ~/.config/plasma-org.kde.plasma.desktop-appletsrc` and commit
+them, or they are lost.
 
 ## Keeping machine-specific state out of the repository
 
@@ -73,11 +78,10 @@ and remembered dialog/popup sizes. `.scripts/strip-plasma-machine-keys.py`
 removes it, and runs automatically in two places:
 
 - **chezmoi hooks**: `.chezmoi.toml.tmpl` runs the script after every
-  `chezmoi add` and `chezmoi re-add`. Run `chezmoi init` once after cloning (or
-  after changing the template) to generate `~/.config/chezmoi/chezmoi.toml`.
+  `chezmoi add` and `chezmoi re-add`. `chezmoi init` generates the config that
+  contains them (run it again after changing the template).
 - **git pre-commit hook**: `.githooks/pre-commit` strips the file again before
-  every commit. Enable it once per clone with
-  `git -C "$(chezmoi source-path)" config core.hooksPath .githooks`.
+  every commit. `chezmoi apply` enables it once per machine.
 
 `~/.config/kcminputrc` is listed in `.chezmoiignore` because its settings are
 tied to specific mice, keyboards and touchpads by USB ID.

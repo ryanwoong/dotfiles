@@ -1,0 +1,16 @@
+#!/bin/sh
+# Pairs with run_onchange_before_20-stop-plasma (same hashes, so both run
+# together): start the activity manager and plasmashell again after chezmoi has
+# written the new config.
+# appletsrc {{ include "dot_config/private_plasma-org.kde.plasma.desktop-appletsrc" | sha256sum }}
+# activities {{ include "dot_config/private_kactivitymanagerdrc" | sha256sum }}
+set -u
+
+systemctl --user start plasma-kactivitymanagerd.service >/dev/null 2>&1 || true
+
+# Only start plasmashell from inside a graphical session (not a TTY or SSH).
+if [ -n "${WAYLAND_DISPLAY:-}${DISPLAY:-}" ] && ! pgrep -x plasmashell >/dev/null 2>&1; then
+    echo "==> Starting plasmashell"
+    kstart plasmashell >/dev/null 2>&1 || (setsid plasmashell >/dev/null 2>&1 &)
+fi
+exit 0
