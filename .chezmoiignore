@@ -1,1 +1,6 @@
 README.md
+
+# Hardware-specific: libinput settings keyed to individual mice/keyboards/
+# touchpads by USB vendor/product ID. Configure input per machine instead.
+# Listing it here also makes `chezmoi add` refuse to start tracking it again.
+.config/kcminputrc

@@ -1,0 +1,12 @@
+# chezmoi config template: `chezmoi init` turns this into ~/.config/chezmoi/chezmoi.toml.
+# After every `chezmoi add` / `chezmoi re-add`, strip the machine-specific state
+# Plasma writes into plasma-org.kde.plasma.desktop-appletsrc (desktop icon
+# positions, screen mapping, dialog sizes) so it never lands in the source dir.
+
+[hooks.add.post]
+    command = "python3"
+    args = ["{{ .chezmoi.sourceDir }}/.scripts/strip-plasma-machine-keys.py", "{{ .chezmoi.sourceDir }}/dot_config/private_plasma-org.kde.plasma.desktop-appletsrc"]
+
+[hooks.re-add.post]
+    command = "python3"
+    args = ["{{ .chezmoi.sourceDir }}/.scripts/strip-plasma-machine-keys.py", "{{ .chezmoi.sourceDir }}/dot_config/private_plasma-org.kde.plasma.desktop-appletsrc"]

@@ -1,0 +1,8 @@
+#!/bin/sh
+# Safety net: strip machine-specific Plasma state (desktop icon positions, which
+# leak desktop file names, screen mapping, dialog sizes) before it is committed.
+# Enable once per clone with:  git config core.hooksPath .githooks
+f=dot_config/private_plasma-org.kde.plasma.desktop-appletsrc
+if git diff --cached --name-only | grep -qxF "$f"; then
+    python3 .scripts/strip-plasma-machine-keys.py "$f" && git add "$f"
+fi
